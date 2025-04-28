@@ -1,20 +1,21 @@
+import { Outlet } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Navbar from "./Navbar";
-import { Outlet } from "react-router-dom";
+import { useOpenSideBar } from "../../hooks";
 
 interface LayoutProps {
   children?: React.ReactNode;
 }
 
 export const Layout = ({ children }: LayoutProps) => {
+  const { isOpen, toggleSidebar, closeSidebar } = useOpenSideBar();
+
   return (
     <div className="flex">
-      {/* Sidebar */}
-      <Sidebar />
+      <Sidebar isOpen={isOpen} closeSidebar={closeSidebar} />
 
-      {/* Main Content */}
-      <div className="flex flex-col flex-1 ml-64 min-h-screen">
-        <Navbar />
+      <div className="flex flex-col flex-1 min-h-screen">
+        <Navbar toggleSidebar={toggleSidebar} />
         <main className="p-6 bg-gray-100 flex-1">
           {children || <Outlet />}
         </main>
@@ -22,4 +23,3 @@ export const Layout = ({ children }: LayoutProps) => {
     </div>
   );
 };
-
