@@ -3,9 +3,12 @@ import { FormLayout } from "../components/layout";
 
 interface AricleFormData {
   name: string;
-  description: string;
-  price: number;
+  SKU: string;
   stock: number;
+  package_number: number;
+  provider: string;
+  registration_date: string;
+  warehouse_location: string;
 }
 
 export const Products = () => {
@@ -46,23 +49,92 @@ export const Products = () => {
                 )
               }
             </div>
-            {/* Price */}
+            {/* SKU */}
             <div>
-              <label className="block text-gray-700 mb-2">Precio</label>
+              <label className="block text-gray-700 mb-2">SKU</label>
               <input
-                type="number"
-                {...register("price", { required: "Este campo es requerido" })}
+                type="text"
+                {...register("SKU", { required: "Este campo es requerido" })}
                 className={`w-full p-2 border rounded ${
-                  errors.price ? "border-red-500" : "border-gray-300"
+                  errors.SKU ? "border-red-500" : "border-gray-300"
                 }`}
-                placeholder="Precio del artículo"
+                placeholder="Código SKU"
               />
               {
-                errors.price && (
-                  <span className="text-red-500 text-sm">{errors.price.message}</span>
+                errors.SKU && (
+                  <span className="text-red-500 text-sm">{errors.SKU.message}</span>
                 )
               }
             </div>
+            {/* Package Number */}
+            <div>
+              <label className="block text-gray-700 mb-2">Número de Paquete</label>
+              <input
+                type="number"
+                {...register("package_number", { required: "Este campo es requerido" })}
+                className={`w-full p-2 border rounded ${
+                  errors.package_number ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Número de paquete"
+              />
+              {
+                errors.package_number && (
+                  <span className="text-red-500 text-sm">{errors.package_number.message}</span>
+                )
+              }
+            </div>
+            {/* Provider */}
+            <div>
+              <label className="block text-gray-700 mb-2">Proveedor</label>
+              <input
+                type="text"
+                {...register("provider", { required: "Este campo es requerido" })}
+                className={`w-full p-2 border rounded ${
+                  errors.provider ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Nombre del proveedor"
+              />
+              {
+                errors.provider && (
+                  <span className="text-red-500 text-sm">{errors.provider.message}</span>
+                )
+              }
+            </div>
+            {/* Registration Date */}
+            <div>
+              <label className="block text-gray-700 mb-2">Fecha de Registro</label>
+              <input
+                type="date"
+                {...register("registration_date", { required: "Este campo es requerido" })}
+                className={`w-full p-2 border rounded ${
+                  errors.registration_date ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Fecha de registro"
+              />
+              {
+                errors.registration_date && (
+                  <span className="text-red-500 text-sm">{errors.registration_date.message}</span>
+                )
+              }
+            </div>
+            {/* Warehouse Location */}
+            <div>
+              <label className="block text-gray-700 mb-2">Ubicación en Almacén</label>
+              <input
+                type="text"
+                {...register("warehouse_location", { required: "Este campo es requerido" })}
+                className={`w-full p-2 border rounded ${
+                  errors.warehouse_location ? "border-red-500" : "border-gray-300"
+                }`}
+                placeholder="Ubicación en el almacén"
+              />
+              {
+                errors.warehouse_location && (
+                  <span className="text-red-500 text-sm">{errors.warehouse_location.message}</span>
+                )
+              }
+            </div>
+          </div>
             {/* Stock */}
             <div>
               <label className="block text-gray-700 mb-2">Stock</label>
@@ -80,26 +152,7 @@ export const Products = () => {
                 )
               }
             </div>
-            {/* Description */}
-            <div>
-              <label className="block text-gray-700 mb-2">Descripción</label>
-              <textarea
-                {...register("description", { required: "Este campo es requerido" })}
-                className={`w-full p-2 border rounded ${
-                  errors.description ? "border-red-500" : "border-gray-300"
-                }`}
-                placeholder="Descripción del artículo"
-                rows={4}
-              ></textarea>
-              {
-                errors.description && (
-                  <span className="text-red-500 text-sm">{errors.description.message}</span>
-                )
-              }
-            </div>
-          </div>
-        </section>
-
+          </section>
         {/* Submit button */}
         <div className="flex justify-end">
           <button

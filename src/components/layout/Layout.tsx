@@ -16,7 +16,7 @@ export const Layout = ({ children }: LayoutProps) => {
 
       <div className="flex flex-col flex-1 min-h-screen">
         <Navbar toggleSidebar={toggleSidebar} />
-        <main className="p-6 bg-gray-100 flex-1">
+        <main className="bg-gray-100 flex-1">
           {children || <Outlet />}
         </main>
       </div>
