@@ -11,12 +11,12 @@ export const Layout = ({ children }: LayoutProps) => {
   const { isOpen, toggleSidebar, closeSidebar } = useOpenSideBar();
 
   return (
-    <div className="flex">
+    <div className="flex h-screen overflow-hidden">
       <Sidebar isOpen={isOpen} closeSidebar={closeSidebar} />
 
-      <div className="flex flex-col flex-1 min-h-screen">
+      <div className="flex flex-col flex-1">
         <Navbar toggleSidebar={toggleSidebar} />
-        <main className="bg-gray-100 flex-1">
+        <main className="flex-1 overflow-auto bg-gray-100 p-6">
           {children || <Outlet />}
         </main>
       </div>
