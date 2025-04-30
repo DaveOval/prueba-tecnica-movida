@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { FormLayout } from "../components/layout";
+import toast from 'react-hot-toast';
 
 interface AricleFormData {
   name: string;
@@ -20,9 +21,17 @@ export const Products = () => {
     formState: { errors }
   } = useForm<AricleFormData>();
 
-  const onSubmit = (data: AricleFormData) => {
-    console.log(data);
-    reset();
+  const onSubmit = async (data: AricleFormData) => {
+    try {
+      // Here you would typically make an API call
+      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulating API call
+      console.log(data);
+      toast.success('Artículo agregado correctamente');
+      reset();
+    } catch (error) {
+      toast.error('Error al agregar el artículo');
+      console.error(error);
+    }
   };
 
   return (

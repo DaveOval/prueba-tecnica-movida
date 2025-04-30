@@ -37,6 +37,9 @@ const Sidebar = ({ isOpen, closeSidebar }: SidebarProps) => {
           <Link onClick={closeSidebar} to="/warehouses" className={`hover:text-gray-400 ${isActive('/warehouses') && 'text-blue-400'}`}>
             Bodegas
           </Link>
+          <Link onClick={closeSidebar} to="/add-warehouses" className={`hover:text-gray-400 ${isActive('/add-warehouses') && 'text-blue-400'}`}>
+            Agregar Bodegas
+          </Link>
         </nav>
       </aside>
     </>

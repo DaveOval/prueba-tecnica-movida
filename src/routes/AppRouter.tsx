@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard, Products, Stock, Warehouses, Error404 } from "../pages"
+import { Dashboard, Products, Stock, Warehouses, Error404, AddWarehouses } from "../pages"
 import { Layout } from "../components/layout/Layout";
 
 export const AppRouter = () => (
@@ -11,6 +11,7 @@ export const AppRouter = () => (
                 <Route path="/products" element={<Products />} />
                 <Route path="/stock" element={<Stock />} />
                 <Route path="/warehouses" element={<Warehouses />} />
+                <Route path="/add-warehouses" element={<AddWarehouses />} />
                 <Route path="*" element={<Error404 />} />
             </Routes>
         </Layout>
