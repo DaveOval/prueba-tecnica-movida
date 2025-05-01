@@ -6,15 +6,16 @@ interface Warehouse {
     description: string;
 }
 
-const WAREHOUSES_ENDPOINT = "/warehouses";
+const WAREHOUSES_ENDPOINT = "bodegas";
+
+export const createWarehouse = async (warehouse: Warehouse) => {
+    const response = await api.post(WAREHOUSES_ENDPOINT, warehouse);
+    return response.data;
+}
 
 export const getWarehousesList = async () => {
     const response = await api.get(WAREHOUSES_ENDPOINT);
     return response.data;
 }
 
-export const createWarehouse = async (warehouse: Warehouse) => {
-    const response = await api.post(WAREHOUSES_ENDPOINT, warehouse);
-    return response.data;
-}
 

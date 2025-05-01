@@ -20,15 +20,21 @@ export const AddWarehouses = () => {
   const { saveWarehouse, isLoading } = useSaveWarehouses();
 
   const onSubmit = async (data: WarehouseFormData) => {
-    toast.loading('Agregando bodega...');
-    try {
-      await saveWarehouse(data);
-      toast.success('Bodega agregada correctamente'); 
+    const loadingToast = toast.loading("Agregando bodega...");
+
+    const { error, success } = await saveWarehouse(data);
+
+    toast.dismiss(loadingToast);
+
+    if (error) {
+      toast.error(error);
+      return;
+    }
+
+    if (success) {
+      toast.success(success);
       reset();
-    } catch (error) {
-      toast.error('Error al agregar la bodega');
-      console.error(error);
-    } 
+    }
   };
   
   return (

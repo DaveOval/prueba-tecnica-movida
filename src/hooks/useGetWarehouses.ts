@@ -15,16 +15,15 @@ export const useGetWarehouses = () => {
   const getWarehouses = async () => {
     setIsLoading(true);
     setError(null);
-
     try {
       const data = await getWarehousesList();
       setWarehouses(data);
-    } catch (err: any) {
-      setError(err?.response?.data?.message || err.message || "Error al obtener las bodegas");
+    } catch {
+      setError("Error al obtener las bodegas");
     } finally {
       setIsLoading(false);
     }
   };
 
-  return { warehouses, getWarehouses, isLoading, error };
+  return { getWarehouses, isLoading, warehouses, error };
 };
