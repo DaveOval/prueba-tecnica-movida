@@ -1,5 +1,11 @@
+import { FormLayout } from "../components/layout";
+
+
+
 export const Stock = () => {
   return (
-    <div>Stock</div>
+    <FormLayout title="Gestionar Stock">
+      <div>Gestionar Stock</div>
+    </FormLayout>
   )
 }

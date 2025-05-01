@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import { getWarehousesList } from "../services";
 
 interface Warehouse {
@@ -12,7 +12,7 @@ export const useGetWarehouses = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const getWarehouses = async () => {
+  const getWarehouses = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
@@ -23,7 +23,7 @@ export const useGetWarehouses = () => {
     } finally {
       setIsLoading(false);
     }
-  };
+  }, []);
 
   return { getWarehouses, isLoading, warehouses, error };
 };
