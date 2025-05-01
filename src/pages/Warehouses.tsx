@@ -8,7 +8,7 @@ export const Warehouses = () => {
 
   useEffect(() => {
     getWarehouses();
-  }, []);
+  }, [getWarehouses]);
 
   if (isLoading) {
     return <Spinner />;

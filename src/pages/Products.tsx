@@ -1,6 +1,7 @@
 import { useForm } from "react-hook-form";
 import { FormLayout } from "../components/layout";
 import toast from 'react-hot-toast';
+import { useSavePorduct } from "../hooks/useSaveProduct";
 
 interface AricleFormData {
   name: string;
@@ -21,17 +22,26 @@ export const Products = () => {
     formState: { errors }
   } = useForm<AricleFormData>();
 
+  const { saveProduct, isLoading } = useSavePorduct();
+
   const onSubmit = async (data: AricleFormData) => {
-    try {
-      // Here you would typically make an API call
-      await new Promise(resolve => setTimeout(resolve, 1000)); // Simulating API call
-      console.log(data);
-      toast.success('Artículo agregado correctamente');
-      reset();
-    } catch (error) {
-      toast.error('Error al agregar el artículo');
-      console.error(error);
+
+    const loadingToast = toast.loading("Agregando producto...");
+
+    const { error, success } = await saveProduct(data);
+
+    toast.dismiss(loadingToast);
+
+    if (error) {
+      toast.error(error);
+      return;
     }
+
+    if (success) {
+      toast.success(success);
+      reset();
+    }
+
   };
 
   return (
@@ -167,8 +177,9 @@ export const Products = () => {
           <button
             type="submit"
             className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition duration-200"
+            disabled={isLoading}
           >
-            Agregar Artículo
+            {isLoading ? "Agregando..." : "Agregar Artículo"}
           </button>
         </div>
       </form>
