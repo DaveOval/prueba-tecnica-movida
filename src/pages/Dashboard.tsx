@@ -1,81 +1,65 @@
-import { useEffect, useState } from "react";
 import { FormLayout } from "../components/layout";
-
-interface Pokemon {
-    name: string;
-    abilities: Array<{
-        ability: {
-            name: string;
-            url: string;
-        };
-        is_hidden: boolean;
-        slot: number;
-    }>;
-    base_experience: number;
-    height: number;
-    weight: number;
-    sprites: {
-        front_default: string;
-    };
-}
+import { Link } from "react-router-dom";
 
 export const Dashboard = () => {
-    const [pokemon, setPokemon] = useState<Pokemon | null>(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
-
-    useEffect(() => {
-        const fetchPokemon = async () => {
-            try {
-                const response = await fetch('https://pokeapi.co/api/v2/pokemon/ditto');
-                const data = await response.json();
-                setPokemon(data);
-            } catch {
-                setError('Error al cargar el Pokémon');
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchPokemon();
-    }, []);
-
-    if (loading) return <div>Cargando...</div>;
-    if (error) return <div className="text-red-500">{error}</div>;
-    if (!pokemon) return <div>No se encontró el Pokémon</div>;
+    const menuItems = [
+        {
+            title: "Gestionar Stock",
+            description: "Ver y actualizar el inventario de productos",
+            icon: "📦",
+            path: "/stock",
+            color: "bg-blue-500 hover:bg-blue-600"
+        },
+        {
+            title: "Gestionar Bodegas",
+            description: "Administrar las ubicaciones de almacenamiento",
+            icon: "🏭",
+            path: "/warehouses",
+            color: "bg-green-500 hover:bg-green-600"
+        },
+        {
+            title: "Agregar Producto",
+            description: "Registrar nuevos productos en el sistema",
+            icon: "➕",
+            path: "/products",
+            color: "bg-purple-500 hover:bg-purple-600"
+        }
+    ];
 
     return (
-        <FormLayout title="Dashboard">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-                <div className="flex items-center justify-center mb-6">
-                    <img 
-                        src={pokemon.sprites.front_default} 
-                        alt={pokemon.name}
-                        className="w-32 h-32 object-contain"
-                    />
+        <FormLayout title="Bienvenido al Sistema de Gestión">
+            <div className="space-y-8">
+                {/* Header */}
+                <div className="text-center">
+                    <h1 className="text-3xl font-bold text-gray-900 mb-4">
+                        Sistema de Gestión de Inventario
+                    </h1>
+                    <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+                        Bienvenido al sistema de gestión de inventario. Aquí podrás administrar tus productos,
+                        bodegas y mantener un control eficiente de tu stock.
+                    </p>
                 </div>
-                <h2 className="text-2xl font-bold mb-4 capitalize text-center">{pokemon.name}</h2>
-                <div className="grid grid-cols-2 gap-4">
-                    <div>
-                        <h3 className="font-semibold">Habilidades:</h3>
-                        <ul className="list-disc list-inside">
-                            {pokemon.abilities.map((ability, index) => (
-                                <li key={index} className="capitalize">
-                                    {ability.ability.name}
-                                    {ability.is_hidden && ' (Oculta)'}
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                    <div>
-                        <h3 className="font-semibold">Estadísticas:</h3>
-                        <ul className="list-disc list-inside">
-                            <li>Experiencia base: {pokemon.base_experience}</li>
-                            <li>Altura: {pokemon.height / 10}m</li>
-                            <li>Peso: {pokemon.weight / 10}kg</li>
-                        </ul>
-                    </div>
+
+                {/* Menu Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {menuItems.map((item) => (
+                        <Link
+                            key={item.path}
+                            to={item.path}
+                            className="block transform transition-all duration-200 hover:scale-105"
+                        >
+                            <div className={`${item.color} rounded-xl shadow-lg p-6 text-white h-full`}>
+                                <div className="flex items-center space-x-4 mb-4">
+                                    <span className="text-4xl">{item.icon}</span>
+                                    <h2 className="text-xl font-bold">{item.title}</h2>
+                                </div>
+                                <p className="text-white/90">{item.description}</p>
+                            </div>
+                        </Link>
+                    ))}
                 </div>
+
+               
             </div>
         </FormLayout>
     );
