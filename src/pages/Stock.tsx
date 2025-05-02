@@ -1,14 +1,24 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { ListLayout } from "../components/layout/ListLayout";
 import { useGetStock } from "../hooks/useGetStock";
+import { useUpdateStock } from "../hooks/useUpdateStock";
 import { Spinner } from "../components/common";
 
 export const Stock = () => {
   const { products, isLoading, getProductsList, error } = useGetStock();
+  const { updateStock } = useUpdateStock(getProductsList);
+  const [stockAmounts, setStockAmounts] = useState<{ [key: string]: number }>({});
 
   useEffect(() => {
     getProductsList();
   }, [getProductsList]);
+
+  const handleAmountChange = (productId: string, amount: number) => {
+    setStockAmounts(prev => ({
+      ...prev,
+      [productId]: amount
+    }));
+  };
 
   if (isLoading) {
     return <Spinner />;
@@ -56,6 +66,9 @@ export const Stock = () => {
                 <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                   Fecha Registro
                 </th>
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -81,6 +94,23 @@ export const Stock = () => {
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-500">
                       {new Date(product.registration_date).toLocaleDateString()}
+                    </div>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="number"
+                        value={stockAmounts[product._id] || 0}
+                        onChange={(e) => handleAmountChange(product._id, parseInt(e.target.value) || 0)}
+                        className="w-20 px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        min="0"
+                      />
+                      <button
+                        onClick={() => updateStock(product._id, product.stock, stockAmounts[product._id] || 0)}
+                        className="inline-flex items-center px-3 py-1.5 border border-transparent text-xs font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                      >
+                        Actualizar
+                      </button>
                     </div>
                   </td>
                 </tr>
