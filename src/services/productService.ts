@@ -15,7 +15,7 @@ interface Product {
 const PRODUCTS_ENDPOINT = "stock";
 
 export const updateProductStock = async (productId: string, stock: number): Promise<Product> => {
-    const response = await api.patch(`${PRODUCTS_ENDPOINT}/${productId}`, { stock });
+    const response = await api.put(`${PRODUCTS_ENDPOINT}/${productId}`, { stock });
 
     return response.data;
 }; 
