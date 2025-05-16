@@ -1,7 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { Layout } from "../components/layout/Layout";
+import { DashboardLayout, AuthLayout } from "../components/layout/";
 import { ProtectedRoute, PublicRoute } from "./";
 import { publicRoutes, protectedRoutes, errorRoute } from "./routes";
+
 
 export const AppRouter = () => (
     <Router>
@@ -11,7 +12,11 @@ export const AppRouter = () => (
                 <Route
                     key={path}
                     path={path}
-                    element={<PublicRoute>{element}</PublicRoute>}
+                    element={
+                        <AuthLayout>
+                            <PublicRoute>{element}</PublicRoute>
+                        </AuthLayout>
+                    }
                 />
             ))}
 
@@ -22,7 +27,7 @@ export const AppRouter = () => (
                     path={path}
                     element={
                         <ProtectedRoute>
-                            <Layout>{element}</Layout>
+                            <DashboardLayout>{element}</DashboardLayout>
                         </ProtectedRoute>
                     }
                 />
