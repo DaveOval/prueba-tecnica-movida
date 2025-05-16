@@ -1,19 +1,35 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
-import { Dashboard, Products, Stock, Warehouses, Error404, AddWarehouses } from "../pages"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Layout } from "../components/layout/Layout";
+import { ProtectedRoute, PublicRoute } from "./";
+import { publicRoutes, protectedRoutes, errorRoute } from "./routes";
 
 export const AppRouter = () => (
     <Router>
-        <Layout>
-            <Routes>
-                <Route path="/" element={<Navigate to="/dashboard" />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/products" element={<Products />} />
-                <Route path="/stock" element={<Stock />} />
-                <Route path="/warehouses" element={<Warehouses />} />
-                <Route path="/add-warehouses" element={<AddWarehouses />} />
-                <Route path="*" element={<Error404 />} />
-            </Routes>
-        </Layout>
+        <Routes>
+            {/* Public Routes */}
+            {publicRoutes.map(({ path, element }) => (
+                <Route
+                    key={path}
+                    path={path}
+                    element={<PublicRoute>{element}</PublicRoute>}
+                />
+            ))}
+
+            {/* Protected Routes */}
+            {protectedRoutes.map(({ path, element }) => (
+                <Route
+                    key={path}
+                    path={path}
+                    element={
+                        <ProtectedRoute>
+                            <Layout>{element}</Layout>
+                        </ProtectedRoute>
+                    }
+                />
+            ))}
+
+            {/* Error 404 */}
+            <Route path={errorRoute.path} element={errorRoute.element} />
+        </Routes>
     </Router>
 );
