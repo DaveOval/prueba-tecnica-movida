@@ -8,25 +8,32 @@ import { FormAuthLayout } from '../components/layout';
 import { Link } from 'react-router-dom';
 
 interface SigninFormData {
-  email: string;
-  password: string;
   name: string;
   secondName: string;
+  email: string;
+  password: string;
+  terms: boolean;
+  confirmPassword: string;
 }
 
 export const Signin = () => {
   const {
     register,
-    // handleSubmit,
+    handleSubmit,
     formState: { errors },
+    getValues,
   } = useForm<SigninFormData>();
+
+  const onSubmit = (data: SigninFormData) => {
+    console.log(data);
+  };
 
   return (
     <FormAuthLayout
       title="Crear cuenta"
       description="Ingresa tus credenciales para continuar!"
     >
-      <form>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-4 w-full">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <AuthInput
@@ -48,7 +55,7 @@ export const Signin = () => {
               label="Segundo nombre"
               type="text"
               id="secondName"
-              placeholder="Ingresa tu segundo nombre"
+              placeholder="Segundo nombre"
               required
               error={errors.secondName?.message}
               {...register('secondName', {
@@ -60,7 +67,7 @@ export const Signin = () => {
               })}
             />
           </div>
-          <div>
+          <div className="gap-4 flex flex-col mb-5">
             <AuthInput
               label="Email"
               type="email"
@@ -80,6 +87,52 @@ export const Signin = () => {
                 },
               })}
             />
+            <AuthInput
+              label="Contraseña"
+              type="password"
+              id="password"
+              placeholder="Ingresa tu contraseña"
+              required
+              error={errors.password?.message}
+              {...register('password', {
+                required: 'Este campo es requerido',
+                minLength: {
+                  value: 6,
+                  message: 'La contraseña debe tener al menos 6 caracteres',
+                },
+                maxLength: {
+                  value: 100,
+                  message: 'La contraseña no debe tener más de 100 caracteres',
+                },
+                validate: {
+                  format: (value) =>
+                    /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(
+                      value
+                    ) ||
+                    'La contraseña debe tener al menos 8 caracteres, una mayúscula, una minúscula, un número y un carácter especial',
+                  noSpaces: (value) =>
+                    !/\s/.test(value) ||
+                    'La contraseña no debe contener espacios',
+                },
+              })}
+            />
+            <AuthInput
+              label="Confirmar contraseña"
+              type="password"
+              id="confirmPassword"
+              placeholder="Confirma tu contraseña"
+              required
+              error={errors.confirmPassword?.message}
+              {...register('confirmPassword', {
+                required: 'Este campo es requerido',
+                validate: (value) => {
+                  if (value !== getValues('password')) {
+                    return 'Las contraseñas no coinciden';
+                  }
+                  return true;
+                },
+              })}
+            />
           </div>
         </div>
         <div className="pt-4">
@@ -87,6 +140,10 @@ export const Signin = () => {
             label="Acepto los términos y condiciones"
             id="terms"
             required
+            error={errors.terms?.message}
+            {...register('terms', {
+              required: 'Este campo es requerido',
+            })}
           />
         </div>
         <div className="pt-4">
