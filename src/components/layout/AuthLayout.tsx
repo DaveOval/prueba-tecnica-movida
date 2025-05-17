@@ -10,7 +10,7 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
       </div>
       <div className="flex-1 hidden md:block overflow-hidden rounded-r-2xl">
         <img
-          src="https://images.pexels.com/photos/30418340/pexels-photo-30418340/free-photo-of-letreros-tradicionales-chinos-en-el-barrio-chino-de-yakarta.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+          src="./auth.webp"
           alt="logo"
           className="object-cover w-full h-full"
         />

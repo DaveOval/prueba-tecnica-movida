@@ -1,11 +1,10 @@
 import { useForm } from 'react-hook-form';
 
 // import toast from 'react-hot-toast';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 import { AuthButton, AuthCheckBox, AuthInput } from '../components/common';
 import { FormAuthLayout } from '../components/layout';
-import { Link } from 'react-router-dom';
 
 interface SigninFormData {
   name: string;
