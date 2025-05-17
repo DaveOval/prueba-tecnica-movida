@@ -43,7 +43,7 @@ export const Login = () => {
             label="Email"
             type="email"
             id="email"
-            placeholder="Email"
+            placeholder="Ingresa tu email"
             required
             error={errors.email?.message}
             {...register('email', {
@@ -70,7 +70,7 @@ export const Login = () => {
             label="Contraseña"
             type="password"
             id="password"
-            placeholder="Contraseña"
+            placeholder="Ingresa tu contraseña"
             required
             error={errors.password?.message}
             {...register('password', {

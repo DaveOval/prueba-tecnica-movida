@@ -33,7 +33,7 @@ export const Signin = () => {
               label="Nombre"
               type="text"
               id="name"
-              placeholder="Nombre"
+              placeholder="Ingresa tu nombre"
               required
               error={errors.name?.message}
               {...register('name', {
@@ -48,7 +48,7 @@ export const Signin = () => {
               label="Segundo nombre"
               type="text"
               id="secondName"
-              placeholder="Segundo nombre"
+              placeholder="Ingresa tu segundo nombre"
               required
               error={errors.secondName?.message}
               {...register('secondName', {
@@ -65,7 +65,7 @@ export const Signin = () => {
               label="Email"
               type="email"
               id="email"
-              placeholder="Email"
+              placeholder="Ingresa tu email"
               required
               error={errors.email?.message}
               {...register('email', {
