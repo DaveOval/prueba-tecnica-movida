@@ -1,5 +1,5 @@
-import { useState, useCallback } from "react";
-import { getWarehousesList } from "../services";
+import { useState, useCallback } from 'react';
+import { getWarehousesList } from '../services';
 
 interface Warehouse {
   _id: string;
@@ -25,7 +25,7 @@ export const useGetWarehouses = () => {
       const data = await getWarehousesList();
       setWarehouses(data);
     } catch {
-      setError("Error al obtener las bodegas");
+      setError('Error al obtener las bodegas');
     } finally {
       setIsLoading(false);
     }

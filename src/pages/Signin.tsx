@@ -1,7 +1,3 @@
-
-
 export const Signin = () => {
-  return (
-    <div>Signin</div>
-  )
-}
+  return <div>Signin</div>;
+};

@@ -1,4 +1,4 @@
-import { IoMenu } from "react-icons/io5";
+import { IoMenu } from 'react-icons/io5';
 
 interface NavbarProps {
   toggleSidebar: () => void;
