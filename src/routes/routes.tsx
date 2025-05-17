@@ -6,6 +6,7 @@ import {
   Error404,
   AddWarehouses,
   Login,
+  Signin,
 } from '../pages';
 
 export interface RouteConfig {
@@ -18,6 +19,11 @@ export const publicRoutes: RouteConfig[] = [
   {
     path: '/login',
     element: <Login />,
+    isPublic: true,
+  },
+  {
+    path: '/signup',
+    element: <Signin />,
     isPublic: true,
   },
 ];

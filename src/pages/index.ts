@@ -1,3 +1,6 @@
+//Auth
+export * from './Signin';
+export * from './Login';
 export * from './Dashboard';
 export * from './Products';
 export * from './Stock';
@@ -5,4 +8,3 @@ export * from './Warehouses';
 export * from './Error404';
 export * from './AddWarehouses';
 export * from './Login';
-export * from './Signin';
