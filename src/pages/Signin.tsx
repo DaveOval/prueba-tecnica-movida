@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 // import toast from 'react-hot-toast';
 // import { Link } from 'react-router-dom';
 
-import { AuthButton, AuthInput } from '../components/common';
+import { AuthButton, AuthCheckBox, AuthInput } from '../components/common';
 import { FormAuthLayout } from '../components/layout';
 import { Link } from 'react-router-dom';
 
@@ -81,6 +81,13 @@ export const Signin = () => {
               })}
             />
           </div>
+        </div>
+        <div className="pt-4">
+          <AuthCheckBox
+            label="Acepto los términos y condiciones"
+            id="terms"
+            required
+          />
         </div>
         <div className="pt-4">
           <AuthButton type="submit">
