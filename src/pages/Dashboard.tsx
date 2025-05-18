@@ -1,4 +1,3 @@
-import { FormLayout } from '../components/layout';
 import { Link } from 'react-router-dom';
 
 export const Dashboard = () => {
@@ -27,41 +26,39 @@ export const Dashboard = () => {
   ];
 
   return (
-    <FormLayout title="Bienvenido al Sistema de Gestión">
-      <div className="space-y-8">
-        {/* Header */}
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">
-            Sistema de Gestión de Inventario
-          </h1>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Bienvenido al sistema de gestión de inventario. Aquí podrás
-            administrar tus productos, bodegas y mantener un control eficiente
-            de tu stock.
-          </p>
-        </div>
-
-        {/* Menu Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {menuItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className="block transform transition-all duration-200 hover:scale-105"
-            >
-              <div
-                className={`${item.color} rounded-xl shadow-lg p-6 text-white h-full`}
-              >
-                <div className="flex items-center space-x-4 mb-4">
-                  <span className="text-4xl">{item.icon}</span>
-                  <h2 className="text-xl font-bold">{item.title}</h2>
-                </div>
-                <p className="text-white/90">{item.description}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">
+          Sistema de Gestión de Inventario
+        </h1>
+        <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+          Bienvenido al sistema de gestión de inventario. Aquí podrás
+          administrar tus productos, bodegas y mantener un control eficiente de
+          tu stock.
+        </p>
       </div>
-    </FormLayout>
+
+      {/* Menu Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {menuItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            className="block transform transition-all duration-200 hover:scale-105"
+          >
+            <div
+              className={`${item.color} rounded-xl shadow-lg p-6 text-white h-full`}
+            >
+              <div className="flex items-center space-x-4 mb-4">
+                <span className="text-4xl">{item.icon}</span>
+                <h2 className="text-xl font-bold">{item.title}</h2>
+              </div>
+              <p className="text-white/90">{item.description}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
   );
 };
