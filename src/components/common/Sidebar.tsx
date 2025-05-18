@@ -1,6 +1,7 @@
 import { Link, useLocation } from 'react-router-dom';
 
 import { useAppSelector } from '../../hooks';
+import { nameApp } from '../../config';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ const Sidebar = () => {
         <picture>
           <img src="./logo.svg" className="w-13 h-13" />
         </picture>
-        {isAsideOpen && <h2 className="text-2xl font-semibold">WMS</h2>}
+        {isAsideOpen && <h2 className="text-2xl font-semibold">{nameApp}</h2>}
       </section>
       <nav className="flex flex-col gap-4">
         <Link
