@@ -11,7 +11,7 @@ export const AuthLayout = ({ children }: AuthLayoutProps) => {
       <div className="flex-1 hidden md:block overflow-hidden rounded-r-2xl">
         <img
           src="./auth.webp"
-          alt="logo"
+          alt="log in or sign in"
           className="object-cover w-full h-full"
         />
       </div>
