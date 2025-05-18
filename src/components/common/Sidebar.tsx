@@ -1,16 +1,24 @@
 import { Link, useLocation } from 'react-router-dom';
 
+import { useAppSelector } from '../../hooks';
+
 const Sidebar = () => {
   const location = useLocation();
   const isActive = (path: string) => location.pathname === path;
 
+  const isAsideOpen = useAppSelector((state) => state.ui.isAsideOpen);
+
   return (
-    <aside className="w-64 bg-[#FFFEFE] border-r border-gray-200">
-      <section>
+    <aside
+      className={`${isAsideOpen ? 'w-64' : 'w-20'} bg-[#FFFEFE] border-r border-gray-200 overflow-hidden transition-all duration-300 ease-in-out`}
+    >
+      <section
+        className={`flex flex-row items-center py-7 gap-1 ${!isAsideOpen && 'justify-center'}`}
+      >
         <picture>
-          <img src="./logo.svg" />
+          <img src="./logo.svg" className="w-13 h-13" />
         </picture>
-        <h2 className="text-2xl font-bold mb-8">WMS</h2>
+        {isAsideOpen && <h2 className="text-2xl font-semibold">WMS</h2>}
       </section>
       <nav className="flex flex-col gap-4">
         <Link

@@ -5,13 +5,15 @@ interface UiState {
   isModalOpen: boolean;
   theme: 'light' | 'dark';
   loading: boolean;
+  isProfilePopUpOpen: boolean;
 }
 
 const initialState: UiState = {
-  isAsideOpen: false,
+  isAsideOpen: true,
   isModalOpen: false,
   theme: 'light',
   loading: false,
+  isProfilePopUpOpen: false,
 };
 
 const uiSlice = createSlice({
@@ -33,10 +35,23 @@ const uiSlice = createSlice({
     setLoading(state, action: PayloadAction<boolean>) {
       state.loading = action.payload;
     },
+    openProfilePopUp(state) {
+      state.isProfilePopUpOpen = true;
+    },
+    closeProfilePopUp(state) {
+      state.isProfilePopUpOpen = false;
+    },
   },
 });
 
-export const { toggleAside, openModal, closeModal, setTheme, setLoading } =
-  uiSlice.actions;
+export const {
+  toggleAside,
+  openModal,
+  closeModal,
+  setTheme,
+  setLoading,
+  openProfilePopUp,
+  closeProfilePopUp,
+} = uiSlice.actions;
 
 export default uiSlice.reducer;

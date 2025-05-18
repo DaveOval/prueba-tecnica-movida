@@ -4,3 +4,4 @@ export * from './AuthInput';
 export * from './AuthButton';
 export * from './AuthCheckBox';
 export * from './Sidebar';
+export * from './Navbar';
