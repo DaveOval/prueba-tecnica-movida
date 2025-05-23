@@ -23,16 +23,7 @@ export interface MenuSection {
 }
 
 export const menuOptions: MenuSection[] = [
-  {
-    title: 'Configuración',
-    items: [
-      {
-        label: 'Configuración',
-        path: '/configuracion',
-        icon: IconSettings,
-      },
-    ],
-  },
+
   {
     title: 'Dashboard',
     items: [
@@ -65,6 +56,16 @@ export const menuOptions: MenuSection[] = [
         label: 'Ubicaciones',
         path: '/inventario/ubicaciones',
         icon: IconMapPin,
+      },
+    ],
+  },
+  {
+    title: 'Configuración',
+    items: [
+      {
+        label: 'Configuración',
+        path: '/configuracion',
+        icon: IconSettings,
       },
     ],
   },

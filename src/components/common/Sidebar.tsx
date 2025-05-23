@@ -13,10 +13,10 @@ const Sidebar = () => {
       className={`${
         isMobile
           ? isAsideOpen
-            ? 'w-64 translate-x-0 fixed top-16 h-[calc(100vh-4rem)]'
+            ? 'w-64 translate-x-0 fixed top-16 h-[calc(100vh-4rem)] shadow-2xl'
             : '-translate-x-full fixed top-16 h-[calc(100vh-4rem)]'
           : isAsideOpen
-            ? 'w-64'
+            ? 'w-64 shadow-2xl'
             : 'w-20'
       } bg-[#FFFEFE] border-r border-gray-200 overflow-hidden transition-all duration-300 ease-in-out`}
     >
@@ -24,9 +24,9 @@ const Sidebar = () => {
         className={`flex flex-row items-center py-7 gap-1 ${!isAsideOpen && 'justify-center'}`}
       >
         <picture>
-          <img src="./logo.svg" className="w-13 h-13" />
+          <img src="/logo.svg" className="w-13 h-13" />
         </picture>
-        {isAsideOpen && <h2 className="text-2xl font-semibold">{nameApp}</h2>}
+        {isAsideOpen && <h2 className="text-2xl font-semibold">{nameApp || 'adwad'}</h2>}
       </section>
       <nav className="flex flex-col gap-4">
         {menuOptions.map((section) => (
