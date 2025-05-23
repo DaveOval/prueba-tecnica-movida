@@ -1,10 +1,18 @@
 //Auth
+export * from './Login';
 export * from './Signin';
-export * from './Login';
+
+// Protected
 export * from './Dashboard';
-export * from './Products';
-export * from './Stock';
-export * from './Warehouses';
+export * from './Configuracion';
+export * from './ControlStock';
+export * from './Alertas';
+export * from './EscanearProductos';
+export * from './Ubicaciones';
+export * from './PedidosPicking';
+export * from './Recepcion';
+export * from './CargaArchivos';
+export * from './Facturacion';
+
+// Error
 export * from './Error404';
-export * from './AddWarehouses';
-export * from './Login';

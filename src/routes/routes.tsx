@@ -1,12 +1,17 @@
 import {
   Dashboard,
-  Products,
-  Stock,
-  Warehouses,
   Error404,
-  AddWarehouses,
   Login,
   Signin,
+  Configuracion,
+  ControlStock,
+  Alertas,
+  EscanearProductos,
+  Ubicaciones,
+  PedidosPicking,
+  Recepcion,
+  CargaArchivos,
+  Facturacion,
 } from '../pages';
 
 export interface RouteConfig {
@@ -38,20 +43,40 @@ export const protectedRoutes: RouteConfig[] = [
     element: <Dashboard />,
   },
   {
-    path: '/products',
-    element: <Products />,
+    path: '/configuracion',
+    element: <Configuracion />,
   },
   {
-    path: '/stock',
-    element: <Stock />,
+    path: '/inventario/stock',
+    element: <ControlStock />,
   },
   {
-    path: '/warehouses',
-    element: <Warehouses />,
+    path: '/inventario/alertas',
+    element: <Alertas />,
   },
   {
-    path: '/add-warehouses',
-    element: <AddWarehouses />,
+    path: '/inventario/escanear',
+    element: <EscanearProductos />,
+  },
+  {
+    path: '/inventario/ubicaciones',
+    element: <Ubicaciones />,
+  },
+  {
+    path: '/almacen/pedidos',
+    element: <PedidosPicking />,
+  },
+  {
+    path: '/almacen/recepcion',
+    element: <Recepcion />,
+  },
+  {
+    path: '/almacen/carga-archivos',
+    element: <CargaArchivos />,
+  },
+  {
+    path: '/facturacion',
+    element: <Facturacion />,
   },
 ];
 
