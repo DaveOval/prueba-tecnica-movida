@@ -7,3 +7,4 @@ export * from './useAppSelector';
 
 // App
 export * from './useAppSelector';
+export * from './useIsMobile';
