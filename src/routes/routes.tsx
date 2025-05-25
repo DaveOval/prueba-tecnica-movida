@@ -2,7 +2,7 @@ import {
   Dashboard,
   Error404,
   Login,
-  Signin,
+  //Signin,
   Configuracion,
   ControlStock,
   Alertas,
@@ -26,11 +26,11 @@ export const publicRoutes: RouteConfig[] = [
     element: <Login />,
     isPublic: true,
   },
-  {
+  /* {
     path: '/signup',
     element: <Signin />,
     isPublic: true,
-  },
+  }, */
 ];
 
 export const protectedRoutes: RouteConfig[] = [

@@ -104,14 +104,14 @@ export const Login = () => {
             <span>Iniciar sesión</span>
           </AuthButton>
         </div>
-        <div className="pt-4">
+        {/* <div className="pt-4">
           <p className="text-sm text-gray-500">
             ¿No tienes una cuenta?{' '}
             <Link to="/signup" className="text-blue-500 hover:text-blue-700">
               Regístrate
             </Link>
           </p>
-        </div>
+        </div> */}
       </form>
     </FormAuthLayout>
   );
