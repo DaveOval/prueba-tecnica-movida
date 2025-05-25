@@ -1,9 +1,8 @@
-import { useState } from 'react';
-
-import { Link } from 'react-router-dom';
-
+import { useState, useRef, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector, useIsMobile } from '../../hooks';
 import { toggleAside } from '../../store/slices/uiSlice';
+import { logout } from '../../store/slices/authSlice';
 import {
   IconArrowDown,
   IconClose,
@@ -16,11 +15,39 @@ import {
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const [isOpen, setIsOpen] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   const isAsideOpen = useAppSelector((state) => state.ui.isAsideOpen);
   const isMobile = useIsMobile();
 
   const user = useAppSelector((state) => state.auth.user);
+
+  // Close menu when clicking outside
+  const userMenuRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        userMenuRef.current &&
+        !userMenuRef.current.contains(event.target as Node)
+      ) {
+        setIsUserMenuOpen(false);
+      }
+    }
+    if (isUserMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isUserMenuOpen]);
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/login');
+  };
 
   return (
     <>
@@ -62,14 +89,20 @@ const Navbar = () => {
           )}
           {/* Notification and user info */}
           {!isMobile && (
-            <section className="flex flex-row items-center gap-3">
+            <section className="flex flex-row items-center gap-3 relative">
               {/* <div>
                 <button className="cursor-pointer border rounded-4xl p-3 border-gray-300 text-gray-500">
                   <IconNotification size={20} />
                 </button>
               </div> */}
               <div className="flex flex-row items-center gap-2">
-                <button className="cursor-pointer border rounded-4xl p-3 border-gray-300 text-gray-500">
+                <button
+                  className="cursor-pointer border rounded-4xl p-3 border-gray-300 text-gray-500"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsUserMenuOpen((prev) => !prev);
+                  }}
+                >
                   {user?.image ? (
                     <img
                       src={user.image}
@@ -80,17 +113,59 @@ const Navbar = () => {
                     <IconUser size={20} />
                   )}
                 </button>
-                <button className="text-gray-500 text-md cursor-pointer flex flex-row items-center justify-center gap-1">
+                <button
+                  className="text-gray-500 text-md cursor-pointer flex flex-row items-center justify-center gap-1"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsUserMenuOpen((prev) => !prev);
+                  }}
+                >
                   {user?.name ? user.name : 'Nombre'}
                   <IconArrowDown size={22} />
                 </button>
               </div>
+              {isUserMenuOpen && (
+                <div
+                  ref={userMenuRef}
+                  className="absolute right-0 top-14 bg-white shadow-lg rounded-2xl p-4 w-64 z-50 border border-gray-200"
+                >
+                  <div className="mb-2">
+                    <div className="font-semibold">{user?.name}</div>
+                    <div className="text-sm text-gray-500">{user?.email}</div>
+                  </div>
+                  <ul>
+                    <li>
+                      <button className="w-full text-left py-2 hover:bg-gray-100 rounded">
+                        Editar perfil
+                      </button>
+                    </li>
+                    <li>
+                      <button className="w-full text-left py-2 hover:bg-gray-100 rounded">
+                        Configuración de cuenta
+                      </button>
+                    </li>
+                    <li>
+                      <button className="w-full text-left py-2 hover:bg-gray-100 rounded">
+                        Soporte
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        className="w-full text-left py-2 text-red-500 hover:bg-gray-100 rounded"
+                        onClick={handleLogout}
+                      >
+                        Cerrar sesión
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </section>
           )}
         </div>
       </header>
       {isOpen && isMobile && (
-        <div className="h-16 bg-white border-b border-gray-200 px-6 shadow-md flex flex-row items-center justify-end">
+        <div className="h-16 bg-white border-b border-gray-200 px-6 shadow-md flex flex-row items-center justify-end relative">
           {/* Notification and user info */}
           <section className="flex flex-row items-center gap-3">
             {/* <div>
@@ -99,7 +174,13 @@ const Navbar = () => {
                 </button>
               </div> */}
             <div className="flex flex-row items-center gap-2">
-              <button className="cursor-pointer border rounded-4xl p-3 border-gray-300 text-gray-500">
+              <button
+                className="cursor-pointer border rounded-4xl p-3 border-gray-300 text-gray-500"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsUserMenuOpen((prev) => !prev);
+                }}
+              >
                 {user?.image ? (
                   <img
                     src={user.image}
@@ -110,11 +191,53 @@ const Navbar = () => {
                   <IconUser size={20} />
                 )}
               </button>
-              <button className="text-gray-500 text-md cursor-pointer flex flex-row items-center justify-center gap-1">
+              <button
+                className="text-gray-500 text-md cursor-pointer flex flex-row items-center justify-center gap-1"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsUserMenuOpen((prev) => !prev);
+                }}
+              >
                 {user?.name ? user.name : 'Nombre'}
                 <IconArrowDown size={22} />
               </button>
             </div>
+            {isUserMenuOpen && (
+              <div
+                ref={userMenuRef}
+                className="absolute right-0 top-14 bg-white shadow-lg rounded-2xl p-4 w-64 z-50 border border-gray-200"
+              >
+                <div className="mb-2">
+                  <div className="font-semibold">{user?.name}</div>
+                  <div className="text-sm text-gray-500">{user?.email}</div>
+                </div>
+                <ul>
+                  <li>
+                    <button className="w-full text-left py-2 hover:bg-gray-100 rounded">
+                      Editar perfil
+                    </button>
+                  </li>
+                  <li>
+                    <button className="w-full text-left py-2 hover:bg-gray-100 rounded">
+                      Configuración de cuenta
+                    </button>
+                  </li>
+                  <li>
+                    <button className="w-full text-left py-2 hover:bg-gray-100 rounded">
+                      Soporte
+                    </button>
+                  </li>
+                  <li>
+                    <button
+                      className="w-full text-left py-2 text-red-500 hover:bg-gray-100 rounded"
+                      onClick={handleLogout}
+                    >
+                      Cerrar sesión
+                    </button>
+                  </li>
+                </ul>
+              </div>
+            )}
           </section>
         </div>
       )}
