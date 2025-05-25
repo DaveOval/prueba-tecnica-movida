@@ -23,10 +23,12 @@ const Sidebar = () => {
       <section
         className={`flex flex-row items-center py-7 gap-1 ${!isAsideOpen && 'justify-center'}`}
       >
-        <picture>
+        <picture className={`${isAsideOpen && 'pl-3'}`}>
           <img src="/logo.svg" className="w-13 h-13" />
         </picture>
-        {isAsideOpen && <h2 className="text-2xl font-semibold">{nameApp || 'adwad'}</h2>}
+        {isAsideOpen && (
+          <h2 className="text-2xl font-semibold">{nameApp || 'adwad'}</h2>
+        )}
       </section>
       <nav className="flex flex-col gap-4">
         {menuOptions.map((section) => (
