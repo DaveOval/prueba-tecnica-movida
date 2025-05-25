@@ -7,3 +7,4 @@ export * from './Sidebar';
 export * from './Navbar';
 export * from './MenuSection';
 export * from './MenuItem';
+export * from './ProfileMenu';
