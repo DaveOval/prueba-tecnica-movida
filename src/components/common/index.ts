@@ -12,3 +12,4 @@ export * from './FormContainer';
 export * from './Input';
 export * from './ToggleSwitch';
 export * from './SubmitButton';
+export * from './Table';
