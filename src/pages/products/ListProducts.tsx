@@ -1,5 +1,9 @@
-import React from 'react';
+import { TableLayout } from '../../components/layout/';
 
 export const ListProducts = () => {
-  return <div>ListProducts</div>;
+  return (
+    <TableLayout title="Productos">
+      <div>ListProducts</div>
+    </TableLayout>
+  );
 };
