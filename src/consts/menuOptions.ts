@@ -9,6 +9,8 @@ import {
   IconInbox,
   IconUpload,
   IconFileText,
+  IconAddProduct,
+  IconProducts,
 } from '../assets/icons';
 
 export interface MenuItem {
@@ -23,7 +25,6 @@ export interface MenuSection {
 }
 
 export const menuOptions: MenuSection[] = [
-
   {
     title: 'Dashboard',
     items: [
@@ -31,6 +32,21 @@ export const menuOptions: MenuSection[] = [
         label: 'Dashboard',
         path: '/dashboard',
         icon: IconLayoutDashboard,
+      },
+    ],
+  },
+  {
+    title: 'Gestión de Productos',
+    items: [
+      {
+        label: 'Productos',
+        path: '/productos',
+        icon: IconProducts,
+      },
+      {
+        label: 'Agregar producto',
+        path: '/productos/agregar',
+        icon: IconAddProduct,
       },
     ],
   },

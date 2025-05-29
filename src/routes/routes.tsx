@@ -13,6 +13,8 @@ import {
   CargaArchivos,
   Facturacion,
 } from '../pages';
+import { ListProducts } from '../pages/products';
+import AddProduct from '../pages/products/AddProduct';
 
 export interface RouteConfig {
   path: string;
@@ -42,6 +44,16 @@ export const protectedRoutes: RouteConfig[] = [
     path: '/dashboard',
     element: <Dashboard />,
   },
+  // Products
+  {
+    path: '/productos',
+    element: <ListProducts />,
+  },
+  {
+    path: '/productos/agregar',
+    element: <AddProduct />,
+  },
+
   {
     path: '/configuracion',
     element: <Configuracion />,

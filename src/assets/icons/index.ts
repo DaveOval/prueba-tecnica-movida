@@ -16,3 +16,6 @@ export * from './IconBell';
 export * from './IconBoxes';
 export * from './IconLayoutDashboard';
 export * from './IconSettings';
+export * from './IconAddProduct';
+export * from './IconDelete';
+export * from './IconProducts';
