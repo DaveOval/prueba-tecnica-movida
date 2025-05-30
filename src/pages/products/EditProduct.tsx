@@ -1,10 +1,12 @@
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import { useEffect } from 'react';
 
 import { FormContainer } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
+import { useEditProduct } from '../../hooks/products/useEditProduct';
 
 interface EditProductFormData {
   name: string;
@@ -30,6 +32,7 @@ export const EditProduct = () => {
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = useForm<EditProductFormData>({
     defaultValues: {
       is_batch_tracked: false,
@@ -40,10 +43,29 @@ export const EditProduct = () => {
   const isBatchTracked = watch('is_batch_tracked');
   const isExpiryTracked = watch('is_expiry_tracked');
 
+  const { isLoading, error, getProductAction, updateProductAction } = useEditProduct(id || '');
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const data = await getProductAction();
+        reset(data);
+      } catch (error) {
+        console.error('Error fetching product:', error);
+      }
+    };
+
+    if (id) {
+      fetchProduct();
+    }
+  }, [id, getProductAction, reset]);
+
   const onSubmit = async (data: EditProductFormData) => {
-    // TODO: Implement edit product logic
-    console.log('Product ID:', id);
-    console.log('Form data:', data);
+    try {
+      await updateProductAction(data);
+    } catch (error) {
+      console.error('Error updating product:', error);
+    }
   };
 
   return (
@@ -154,11 +176,12 @@ export const EditProduct = () => {
             error={errors.price?.message}
             {...register('price')}
           />
+          {error && <p className="text-red-500">{error}</p>}
           <SubmitButton
             type="submit"
             label="Guardar cambios"
-            loading={false}
-            disabled={false}
+            loading={isLoading}
+            disabled={isLoading}
           />
         </form>
       </FormContainer>

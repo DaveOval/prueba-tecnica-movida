@@ -1,6 +1,7 @@
 import { api } from '../api';
 
-interface AddWarehouseFormData {
+interface Warehouse {
+  _id: string;
   warehouse_name: string;
   warehouse_code: string;
   square_meters: number;
@@ -9,15 +10,14 @@ interface AddWarehouseFormData {
   levels_per_rack: number;
   Default: boolean;
   status: string;
+  created_at: string;
+  updated_at: string;
+  __v: number;
 }
 
 const WAREHOUSES_ENDPOINT = 'warehouse';
 
-export const addWarehouse = async (data: AddWarehouseFormData) => {
-  if (!data) {
-    throw new Error('All fields are required');
-  }
-
-  const response = await api.post(`${WAREHOUSES_ENDPOINT}`, data);
+export const getWarehouse = async (id: string) => {
+  const response = await api.get<Warehouse>(`${WAREHOUSES_ENDPOINT}/${id}`);
   return response.data;
 }; 
