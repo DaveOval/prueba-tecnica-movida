@@ -6,6 +6,7 @@ import { FormContainer } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
+import { useAddStock } from '../../hooks/stock/useAddStock';
 
 interface AddStockFormData {
   product_id: string;
@@ -28,14 +29,25 @@ export const AddStock = () => {
     formState: { errors },
   } = useForm<AddStockFormData>({
     defaultValues: {
-      status: 'active',
+      status: 'Activo',
+      quantity: 0,
+      reserved_quantity: 0,
+      available_quantity: 0,
     },
   });
 
+  const { isLoading, addStockAction, error } = useAddStock();
+
   const onSubmit = async (data: AddStockFormData) => {
     try {
-      // TODO: Implement addStockAction hook
-      // await addStockAction(data);
+      // Format dates to ISO string
+      const formattedData = {
+        ...data,
+        expiry_date: new Date(data.expiry_date).toISOString(),
+        last_movement_date: new Date(data.last_movement_date).toISOString(),
+      };
+      
+      await addStockAction(formattedData);
       toast.success('Stock agregado correctamente');
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
@@ -54,38 +66,50 @@ export const AddStock = () => {
           <Input
             label="ID del producto"
             id="product_id"
-            placeholder="ID del producto"
+            placeholder=""
             required
             type="text"
             error={errors.product_id?.message}
-            {...register('product_id')}
+            {...register('product_id', {
+              required: 'El ID del producto es requerido',
+  
+            })}
           />
           <Input
             label="ID del almacén"
             id="warehouse_id"
-            placeholder="ID del almacén"
+            placeholder=""
             required
             type="text"
             error={errors.warehouse_id?.message}
-            {...register('warehouse_id')}
+            {...register('warehouse_id', {
+              required: 'El ID del almacén es requerido',
+            
+            })}
           />
           <Input
             label="Código de ubicación"
             id="location_code"
-            placeholder="Código de ubicación"
+            placeholder=""
             required
             type="text"
             error={errors.location_code?.message}
-            {...register('location_code')}
+            {...register('location_code', {
+              required: 'El código de ubicación es requerido',
+            
+            })}
           />
           <Input
             label="Número de lote"
             id="batch_number"
-            placeholder="Número de lote"
+            placeholder="Ej: BATCH-20240501"
             required
             type="text"
             error={errors.batch_number?.message}
-            {...register('batch_number')}
+            {...register('batch_number', {
+              required: 'El número de lote es requerido',
+             
+            })}
           />
           <Input
             label="Fecha de vencimiento"
@@ -94,43 +118,70 @@ export const AddStock = () => {
             required
             type="date"
             error={errors.expiry_date?.message}
-            {...register('expiry_date')}
+            {...register('expiry_date', {
+              required: 'La fecha de vencimiento es requerida',
+              validate: (value) => {
+                const date = new Date(value);
+                return date > new Date() || 'La fecha debe ser futura';
+              },
+            })}
           />
           <Input
             label="Número de serie"
             id="serial_number"
-            placeholder="Número de serie"
+            placeholder=""
             required
             type="text"
             error={errors.serial_number?.message}
-            {...register('serial_number')}
+            {...register('serial_number', {
+              required: 'El número de serie es requerido',
+             
+            })}
           />
           <Input
             label="Cantidad"
             id="quantity"
-            placeholder="Cantidad"
+            placeholder=""
             required
             type="number"
             error={errors.quantity?.message}
-            {...register('quantity')}
+            {...register('quantity', {
+              required: 'La cantidad es requerida',
+              min: {
+                value: 0,
+                message: 'La cantidad debe ser mayor o igual a 0',
+              },
+            })}
           />
           <Input
             label="Cantidad reservada"
             id="reserved_quantity"
-            placeholder="Cantidad reservada"
+            placeholder=""
             required
             type="number"
             error={errors.reserved_quantity?.message}
-            {...register('reserved_quantity')}
+            {...register('reserved_quantity', {
+              required: 'La cantidad reservada es requerida',
+              min: {
+                value: 0,
+                message: 'La cantidad reservada debe ser mayor o igual a 0',
+              },
+            })}
           />
           <Input
             label="Cantidad disponible"
             id="available_quantity"
-            placeholder="Cantidad disponible"
+            placeholder=""
             required
             type="number"
             error={errors.available_quantity?.message}
-            {...register('available_quantity')}
+            {...register('available_quantity', {
+              required: 'La cantidad disponible es requerida',
+              min: {
+                value: 0,
+                message: 'La cantidad disponible debe ser mayor o igual a 0',
+              },
+            })}
           />
           <Input
             label="Fecha del último movimiento"
@@ -139,22 +190,29 @@ export const AddStock = () => {
             required
             type="datetime-local"
             error={errors.last_movement_date?.message}
-            {...register('last_movement_date')}
+            {...register('last_movement_date', {
+              required: 'La fecha del último movimiento es requerida',
+            })}
           />
           <Input
             label="Estado"
             id="status"
-            placeholder="Estado"
+            placeholder="Ej: Activo"
             required
             type="text"
             error={errors.status?.message}
-            {...register('status')}
+            {...register('status', {
+              required: 'El estado es requerido',
+              validate: (value) => 
+                value === 'Activo' || value === 'Inactivo' || 'El estado debe ser Activo o Inactivo',
+            })}
           />
+          {error && <p className="text-red-500">{error}</p>}
           <SubmitButton
             type="submit"
             label="Agregar"
-            loading={false}
-            disabled={false}
+            loading={isLoading}
+            disabled={isLoading}
           />
         </form>
       </FormContainer>
