@@ -54,7 +54,7 @@ export const menuOptions: MenuSection[] = [
   },
   /* Almacenes */
   {
-    title: "Gestion de almacenes",
+    title: "Gestión de almacenes",
     items: [
       {
         label: "Almacenes",
@@ -64,6 +64,22 @@ export const menuOptions: MenuSection[] = [
       {
         label: "Agregar almacen",
         path: "/almacenes/agregar",
+        icon: IconDelete
+      }
+    ]
+  },
+  // Stock
+  {
+    title: "Gestión de stock",
+    items: [
+      {
+        label: "Stock",
+        path: "/stock",
+        icon: IconWarehouse
+      },
+      {
+        label: "Agregar stock",
+        path: "/stock/agregar",
         icon: IconDelete
       }
     ]

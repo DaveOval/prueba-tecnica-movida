@@ -14,6 +14,7 @@ import {
   Facturacion,
 } from '../pages';
 import { EditProduct, ListProducts, AddProduct } from '../pages/products';
+import { AddStock, EditStock, ListStock } from '../pages/stock';
 import { AddWarehouse, EditWarehouse, ListWarehouse } from '../pages/warehouse';
 
 export interface RouteConfig {
@@ -69,6 +70,19 @@ export const protectedRoutes: RouteConfig[] = [
   {
     path: "/almacenes/editar/*",
     element: <EditWarehouse />
+  },
+  // stock
+  {
+    path: "/stock",
+    element: <ListStock />
+  },
+  {
+    path: "/stock/agregar",
+    element: <AddStock />
+  },
+  {
+    path: "/stock/editar/*",
+    element: <EditStock />
   },
   {
     path: '/configuracion',
