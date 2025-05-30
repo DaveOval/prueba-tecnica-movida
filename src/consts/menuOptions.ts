@@ -6,11 +6,12 @@ import {
   IconScanBarcode,
   IconMapPin,
   IconPackageSearch,
-  IconInbox,
   IconUpload,
   IconFileText,
   IconAddProduct,
   IconProducts,
+  IconWarehouse,
+  IconDelete
 } from '../assets/icons';
 
 export interface MenuItem {
@@ -35,6 +36,7 @@ export const menuOptions: MenuSection[] = [
       },
     ],
   },
+  /* Productos */
   {
     title: 'Gestión de Productos',
     items: [
@@ -49,6 +51,22 @@ export const menuOptions: MenuSection[] = [
         icon: IconAddProduct,
       },
     ],
+  },
+  /* Almacenes */
+  {
+    title: "Gestion de almacenes",
+    items: [
+      {
+        label: "Almacenes",
+        path: "/almacenes",
+        icon: IconWarehouse
+      },
+      {
+        label: "Agregar almacen",
+        path: "/almacenes/agregar",
+        icon: IconDelete
+      }
+    ]
   },
   {
     title: 'Gestión de Inventario',
@@ -96,7 +114,7 @@ export const menuOptions: MenuSection[] = [
       {
         label: 'Recepción',
         path: '/almacen/recepcion',
-        icon: IconInbox,
+        icon: IconWarehouse,
       },
       {
         label: 'Carga de archivos',
