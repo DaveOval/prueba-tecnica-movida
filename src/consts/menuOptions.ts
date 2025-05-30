@@ -11,7 +11,8 @@ import {
   IconAddProduct,
   IconProducts,
   IconWarehouse,
-  IconDelete
+  IconDelete,
+  IconStock
 } from '../assets/icons';
 
 export interface MenuItem {
@@ -75,7 +76,7 @@ export const menuOptions: MenuSection[] = [
       {
         label: "Stock",
         path: "/stock",
-        icon: IconWarehouse
+        icon: IconStock
       },
       {
         label: "Agregar stock",

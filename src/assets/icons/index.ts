@@ -20,3 +20,4 @@ export * from './IconAddProduct';
 export * from './IconDelete';
 export * from './IconProducts';
 export * from "./IconWarehouse"
+export * from "./IconStock"
