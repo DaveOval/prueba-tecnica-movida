@@ -2,6 +2,7 @@
 import { TableLayout } from '../../components/layout/';
 import { Table, Column } from '../../components/common/';
 import { useGetProducts } from '../../hooks/products/useGetProducts';
+import { useDeleteProduct } from '../../hooks/products/useDeleteProduct';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -28,6 +29,28 @@ const EditButton = ({ id }: { id: string }) => {
       className="text-blue-600 hover:text-blue-800"
     >
       Editar
+    </button>
+  );
+};
+
+const DeleteProduct = ({ id }: { id: string }) => {
+  const { deleteProductAction } = useDeleteProduct(() => {
+    // Refresh the products list after successful deletion
+    window.location.reload();
+  });
+
+  const handleDelete = () => {
+    if (window.confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+      deleteProductAction(id);
+    }
+  };
+
+  return (
+    <button
+      onClick={handleDelete}
+      className="text-red-600 hover:text-red-800"
+    >
+      Eliminar
     </button>
   );
 };
@@ -66,7 +89,8 @@ const columns: Column<Product>[] = [
   },
   {
     key: 'delete',
-    header: "Borrar"
+    header: "Borrar",
+    render: (_, row) => <DeleteProduct id={row._id} />
   },
   {
     key: "edit",
