@@ -50,7 +50,7 @@ const Navbar = () => {
               <section>
                 <Link to="/dashboard">
                   <picture>
-                    <img src="./logo.svg" className="w-13 h-13" />
+                    <img src="/logo.svg" className="w-13 h-13" />
                   </picture>
                 </Link>
               </section>
