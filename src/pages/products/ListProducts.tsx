@@ -1,10 +1,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { TableLayout } from '../../components/layout/';
-import { Table } from '../../components/common/';
+import { Table, Column } from '../../components/common/';
 import { useGetProducts } from '../../hooks/products/useGetProducts';
 import { useEffect } from 'react';
 
-const columns = [
+interface Product {
+  name: string;
+  category: string;
+  unit_of_measure: string;
+  barcode: string;
+  min_stock_level: number;
+  max_stock_level: number;
+  price: { $numberDecimal: string };
+  status: string;
+  created_at: string;
+  delete?: never;
+  edit?: never;
+}
+
+const columns: Column<Product>[] = [
   { key: 'name', header: 'Nombre' },
   { key: 'category', header: 'Categoría' },
   { key: 'unit_of_measure', header: 'Unidad' },
@@ -36,6 +50,14 @@ const columns = [
     header: 'Creado',
     render: (val: any) => new Date(val).toLocaleDateString(),
   },
+  {
+    key: 'delete',
+    header: "Borrar"
+  },
+  {
+    key: "edit",
+    header: "Editar"
+  }
 ];
 
 export const ListProducts = () => {
@@ -47,7 +69,7 @@ export const ListProducts = () => {
 
   return (
     <TableLayout title="Productos">
-      <Table columns={columns} data={products.productos} />
+      {products?.productos && <Table columns={columns} data={products.productos} />}
       {isLoading && <div>Cargando...</div>}
       {error && <div>Error: {error}</div>}
     </TableLayout>
