@@ -6,7 +6,7 @@ import { FormContainer } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
-import { useAddProduct } from '../../hooks/products/addProduct';
+import { useAddProduct } from '../../hooks/products/useAddProduct';
 
 interface AddProductFormData {
   name: string;
@@ -23,7 +23,7 @@ interface AddProductFormData {
   price: number;
 }
 
-const AddProduct = () => {
+export const AddProduct = () => {
   const {
     register,
     handleSubmit,
@@ -176,5 +176,3 @@ const AddProduct = () => {
     </FormLayout>
   );
 };
-
-export default AddProduct;

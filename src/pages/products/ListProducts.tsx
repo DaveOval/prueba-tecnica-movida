@@ -3,6 +3,7 @@ import { TableLayout } from '../../components/layout/';
 import { Table, Column } from '../../components/common/';
 import { useGetProducts } from '../../hooks/products/useGetProducts';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface Product {
   name: string;
@@ -14,9 +15,22 @@ interface Product {
   price: { $numberDecimal: string };
   status: string;
   created_at: string;
+  _id: string;
   delete?: never;
   edit?: never;
 }
+
+const EditButton = ({ id }: { id: string }) => {
+  const navigate = useNavigate();
+  return (
+    <button
+      onClick={() => navigate(`/productos/editar/${id}`)}
+      className="text-blue-600 hover:text-blue-800"
+    >
+      Editar
+    </button>
+  );
+};
 
 const columns: Column<Product>[] = [
   { key: 'name', header: 'Nombre' },
@@ -56,7 +70,8 @@ const columns: Column<Product>[] = [
   },
   {
     key: "edit",
-    header: "Editar"
+    header: "Editar",
+    render: (_, row) => <EditButton id={row._id} />
   }
 ];
 
