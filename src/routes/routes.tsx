@@ -14,7 +14,7 @@ import {
   Facturacion,
 } from '../pages';
 import { EditProduct, ListProducts, AddProduct } from '../pages/products';
-import { AddWarehouse, ListWarehouse } from '../pages/warehouse';
+import { AddWarehouse, EditWarehouse, ListWarehouse } from '../pages/warehouse';
 
 export interface RouteConfig {
   path: string;
@@ -68,7 +68,7 @@ export const protectedRoutes: RouteConfig[] = [
   },
   {
     path: "/almacenes/editar/*",
-    element: <EditProduct />
+    element: <EditWarehouse />
   },
   {
     path: '/configuracion',
