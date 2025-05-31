@@ -1,7 +1,9 @@
-import React from 'react'
+import { TableLayout } from '../../components/layout/TableLayout';
 
 export const ListStock = () => {
   return (
-    <div>ListStock</div>
-  )
-}
+    <TableLayout title="Control Stock" route="agregar">
+      <h1>hola</h1>
+    </TableLayout>
+  );
+};

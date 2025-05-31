@@ -35,18 +35,6 @@ export const menuOptions: MenuSection[] = [
       },
     ],
   },
-
-  // Stock
-  {
-    title: 'Gestión de stock',
-    items: [
-      {
-        label: 'Agregar stock',
-        path: '/stock/agregar',
-        icon: IconDelete,
-      },
-    ],
-  },
   {
     title: 'Gestión de Inventario',
     items: [
