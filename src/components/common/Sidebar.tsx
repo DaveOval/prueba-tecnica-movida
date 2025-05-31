@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 import { useAppSelector, useIsMobile } from '../../hooks';
 import { nameApp } from '../../config';
 import { menuOptions } from '../../consts/menuOptions';
@@ -21,14 +23,16 @@ const Sidebar = () => {
       } bg-[#FFFEFE] border-r border-gray-200 overflow-hidden transition-all duration-300 ease-in-out`}
     >
       <section
-        className={`flex flex-row items-center py-7 gap-1 ${!isAsideOpen && 'justify-center'}`}
+        className={`flex flex-row items-center py-7 gap-1 border-b border-gray-200 mb-4 ${!isAsideOpen && 'justify-center'}`}
       >
-        <picture className={`${isAsideOpen && 'pl-3'}`}>
-          <img src="/logo.svg" className="w-13 h-13" />
-        </picture>
-        {isAsideOpen && (
-          <h2 className="text-2xl font-semibold">{nameApp || 'adwad'}</h2>
-        )}
+        <Link to="/" className="flex flex-row items-center gap-2">
+          <picture className={`${isAsideOpen && 'pl-3'}`}>
+            <img src="/logo.svg" className="w-13 h-13" />
+          </picture>
+          {isAsideOpen && (
+            <h2 className="text-2xl font-semibold">{nameApp || 'CRM'}</h2>
+          )}
+        </Link>
       </section>
       <nav className="flex flex-col gap-4">
         {menuOptions.map((section) => (

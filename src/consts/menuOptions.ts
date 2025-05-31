@@ -9,7 +9,6 @@ import {
   IconFileText,
   IconProducts,
   IconWarehouse,
-  IconDelete,
   IconStock,
 } from '../assets/icons';
 
@@ -30,7 +29,7 @@ export const menuOptions: MenuSection[] = [
     items: [
       {
         label: 'Dashboard',
-        path: '/dashboard',
+        path: '/',
         icon: IconLayoutDashboard,
       },
     ],
