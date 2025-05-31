@@ -26,6 +26,7 @@ export const AddWarehouse = () => {
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = useForm<AddWarehouseFormData>({
     defaultValues: {
       Default: false,
@@ -41,6 +42,7 @@ export const AddWarehouse = () => {
     try {
       await addWarehouseAction(data);
       toast.success('Almacén agregado correctamente');
+      reset();
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =

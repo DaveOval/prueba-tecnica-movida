@@ -46,10 +46,7 @@ const DeleteProduct = ({ id }: { id: string }) => {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className="text-red-600 hover:text-red-800"
-    >
+    <button onClick={handleDelete} className="text-red-600 hover:text-red-800">
       Eliminar
     </button>
   );
@@ -89,14 +86,14 @@ const columns: Column<Product>[] = [
   },
   {
     key: 'delete',
-    header: "Borrar",
-    render: (_, row) => <DeleteProduct id={row._id} />
+    header: 'Borrar',
+    render: (_, row) => <DeleteProduct id={row._id} />,
   },
   {
-    key: "edit",
-    header: "Editar",
-    render: (_, row) => <EditButton id={row._id} />
-  }
+    key: 'edit',
+    header: 'Editar',
+    render: (_, row) => <EditButton id={row._id} />,
+  },
 ];
 
 export const ListProducts = () => {
@@ -107,8 +104,10 @@ export const ListProducts = () => {
   }, [getProductsAction]);
 
   return (
-    <TableLayout title="Productos">
-      {products?.productos && <Table columns={columns} data={products.productos} />}
+    <TableLayout title="Productos" route="agregar">
+      {products?.productos && (
+        <Table columns={columns} data={products.productos} />
+      )}
       {isLoading && <div>Cargando...</div>}
       {error && <div>Error: {error}</div>}
     </TableLayout>

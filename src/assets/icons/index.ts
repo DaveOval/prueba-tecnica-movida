@@ -19,5 +19,6 @@ export * from './IconSettings';
 export * from './IconAddProduct';
 export * from './IconDelete';
 export * from './IconProducts';
-export * from "./IconWarehouse"
-export * from "./IconStock"
+export * from './IconWarehouse';
+export * from './IconStock';
+export * from './IconAdd';

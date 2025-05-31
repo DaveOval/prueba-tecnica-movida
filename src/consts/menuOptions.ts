@@ -1,18 +1,16 @@
 import {
   IconLayoutDashboard,
   IconSettings,
-  IconBoxes,
   IconBell,
   IconScanBarcode,
   IconMapPin,
   IconPackageSearch,
   IconUpload,
   IconFileText,
-  IconAddProduct,
   IconProducts,
   IconWarehouse,
   IconDelete,
-  IconStock
+  IconStock,
 } from '../assets/icons';
 
 export interface MenuItem {
@@ -37,9 +35,20 @@ export const menuOptions: MenuSection[] = [
       },
     ],
   },
-  /* Productos */
+
+  // Stock
   {
-    title: 'Gestión de Productos',
+    title: 'Gestión de stock',
+    items: [
+      {
+        label: 'Agregar stock',
+        path: '/stock/agregar',
+        icon: IconDelete,
+      },
+    ],
+  },
+  {
+    title: 'Gestión de Inventario',
     items: [
       {
         label: 'Productos',
@@ -47,51 +56,14 @@ export const menuOptions: MenuSection[] = [
         icon: IconProducts,
       },
       {
-        label: 'Agregar producto',
-        path: '/productos/agregar',
-        icon: IconAddProduct,
+        label: 'Almacenes',
+        path: '/almacenes',
+        icon: IconWarehouse,
       },
-    ],
-  },
-  /* Almacenes */
-  {
-    title: "Gestión de almacenes",
-    items: [
-      {
-        label: "Almacenes",
-        path: "/almacenes",
-        icon: IconWarehouse
-      },
-      {
-        label: "Agregar almacen",
-        path: "/almacenes/agregar",
-        icon: IconDelete
-      }
-    ]
-  },
-  // Stock
-  {
-    title: "Gestión de stock",
-    items: [
-      {
-        label: "Stock",
-        path: "/stock",
-        icon: IconStock
-      },
-      {
-        label: "Agregar stock",
-        path: "/stock/agregar",
-        icon: IconDelete
-      }
-    ]
-  },
-  {
-    title: 'Gestión de Inventario',
-    items: [
       {
         label: 'Control Stock',
-        path: '/inventario/stock',
-        icon: IconBoxes,
+        path: '/stock',
+        icon: IconStock,
       },
       {
         label: 'Alertas',

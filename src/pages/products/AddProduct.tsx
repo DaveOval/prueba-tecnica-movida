@@ -30,6 +30,7 @@ export const AddProduct = () => {
     formState: { errors },
     watch,
     setValue,
+    reset,
   } = useForm<AddProductFormData>({
     defaultValues: {
       is_batch_tracked: false,
@@ -46,6 +47,7 @@ export const AddProduct = () => {
     try {
       await addProductAction(data);
       toast.success('Producto agregado correctamente');
+      reset();
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =

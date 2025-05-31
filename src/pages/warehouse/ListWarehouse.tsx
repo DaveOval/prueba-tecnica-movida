@@ -47,10 +47,7 @@ const DeleteWarehouse = ({ id }: { id: string }) => {
   };
 
   return (
-    <button
-      onClick={handleDelete}
-      className="text-red-600 hover:text-red-800"
-    >
+    <button onClick={handleDelete} className="text-red-600 hover:text-red-800">
       Eliminar
     </button>
   );
@@ -69,9 +66,7 @@ const columns: Column<Warehouse>[] = [
     render: (value) => (
       <span
         className={`px-2 py-1 rounded-full text-xs font-semibold ${
-          value
-            ? 'bg-green-100 text-green-800'
-            : 'bg-gray-100 text-gray-800'
+          value ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
         }`}
       >
         {value ? 'Sí' : 'No'}
@@ -105,26 +100,29 @@ const columns: Column<Warehouse>[] = [
   },
   {
     key: 'delete',
-    header: "Borrar",
-    render: (_, row) => <DeleteWarehouse id={row._id} />
+    header: 'Borrar',
+    render: (_, row) => <DeleteWarehouse id={row._id} />,
   },
   {
-    key: "edit",
-    header: "Editar",
-    render: (_, row) => <EditButton id={row._id} />
-  }
+    key: 'edit',
+    header: 'Editar',
+    render: (_, row) => <EditButton id={row._id} />,
+  },
 ];
 
 export const ListWarehouse = () => {
-  const { isLoading, error, getWarehousesAction, warehouses } = useGetWarehouses();
+  const { isLoading, error, getWarehousesAction, warehouses } =
+    useGetWarehouses();
 
   useEffect(() => {
     getWarehousesAction();
   }, [getWarehousesAction]);
 
   return (
-    <TableLayout title="Almacenes">
-      {warehouses?.bodegas && <Table columns={columns} data={warehouses.bodegas} />}
+    <TableLayout title="Almacenes" route="agregar">
+      {warehouses?.bodegas && (
+        <Table columns={columns} data={warehouses.bodegas} />
+      )}
       {isLoading && <div>Cargando...</div>}
       {error && <div>Error: {error}</div>}
     </TableLayout>
