@@ -74,3 +74,10 @@ export const updateStock = async (id: string, data: StockUpdate) => {
   );
   return response.data;
 };
+
+export const deleteStock = async (id: string) => {
+  const response = await api.delete<SingleStockResponse>(
+    `${STOCK_ENDPOINT}/${id}`
+  );
+  return response.data;
+};

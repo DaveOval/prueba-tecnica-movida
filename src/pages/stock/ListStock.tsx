@@ -1,6 +1,7 @@
 import { TableLayout } from '../../components/layout/TableLayout';
 import { Table, Column } from '../../components/common/';
 import { useGetStock } from '../../hooks/stock/useGetStock';
+import { useDeleteStock } from '../../hooks/stock/useDeleteStock';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -50,14 +51,17 @@ const EditButton = ({ id }: { id: string }) => {
 };
 
 const DeleteStock = ({ id }: { id: string }) => {
+  const { deleteStockAction } = useDeleteStock(() => {
+    window.location.reload();
+  });
+
   const handleDelete = () => {
     if (
       window.confirm(
         '¿Estás seguro de que deseas eliminar este registro de stock?'
       )
     ) {
-      // TODO: Implement delete functionality
-      console.log('Delete stock:', id);
+      deleteStockAction(id);
     }
   };
 
