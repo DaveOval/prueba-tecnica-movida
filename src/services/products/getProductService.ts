@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { api } from '../api';
 
 interface Product {
@@ -13,10 +14,11 @@ interface Product {
   max_stock_level: number;
   default_location: string;
   supplier_id: string;
-  price: number;
+  price: { $numberDecimal: string } | any;
   created_at: string;
   updated_at: string;
   __v: number;
+  product: Product;
 }
 
 const PRODUCTS_ENDPOINT = 'product';
@@ -24,4 +26,4 @@ const PRODUCTS_ENDPOINT = 'product';
 export const getProduct = async (id: string) => {
   const response = await api.get<Product>(`${PRODUCTS_ENDPOINT}/${id}`);
   return response.data;
-}; 
+};

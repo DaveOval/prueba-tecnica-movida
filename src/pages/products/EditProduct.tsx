@@ -55,6 +55,7 @@ export const EditProduct = () => {
       try {
         setIsFormReady(true);
         const data = await getProductAction();
+
         const { product } = data;
 
         setValue('name', product.name);

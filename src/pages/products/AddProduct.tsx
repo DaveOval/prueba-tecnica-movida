@@ -7,6 +7,7 @@ import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
 import { useAddProduct } from '../../hooks/products/useAddProduct';
+import { useNavigate } from 'react-router-dom';
 
 interface AddProductFormData {
   name: string;
@@ -24,6 +25,7 @@ interface AddProductFormData {
 }
 
 export const AddProduct = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -48,6 +50,7 @@ export const AddProduct = () => {
       await addProductAction(data);
       toast.success('Producto agregado correctamente');
       reset();
+      navigate('/productos');
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =
