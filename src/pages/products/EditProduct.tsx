@@ -51,6 +51,7 @@ export const EditProduct = () => {
     const fetchProduct = async () => {
       try {
         const data = await getProductAction();
+        console.log('data', data);
         reset(data);
       } catch (error) {
         console.error('Error fetching product:', error);

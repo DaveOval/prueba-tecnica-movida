@@ -55,34 +55,34 @@ export const protectedRoutes: RouteConfig[] = [
     element: <AddProduct />,
   },
   {
-    path: "/productos/editar/*",
-    element: <EditProduct />
+    path: '/productos/editar/:id',
+    element: <EditProduct />,
   },
   // Warehouses
   {
-    path: "/almacenes",
-    element: <ListWarehouse />
+    path: '/almacenes',
+    element: <ListWarehouse />,
   },
   {
-    path: "/almacenes/agregar",
-    element: <AddWarehouse />
+    path: '/almacenes/agregar',
+    element: <AddWarehouse />,
   },
   {
-    path: "/almacenes/editar/*",
-    element: <EditWarehouse />
+    path: '/almacenes/editar/:id',
+    element: <EditWarehouse />,
   },
   // stock
   {
-    path: "/stock",
-    element: <ListStock />
+    path: '/stock',
+    element: <ListStock />,
   },
   {
-    path: "/stock/agregar",
-    element: <AddStock />
+    path: '/stock/agregar',
+    element: <AddStock />,
   },
   {
-    path: "/stock/editar/*",
-    element: <EditStock />
+    path: '/stock/editar/:id',
+    element: <EditStock />,
   },
   {
     path: '/configuracion',
