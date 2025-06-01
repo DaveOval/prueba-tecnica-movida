@@ -91,7 +91,7 @@ export const EditProduct = () => {
   };
 
   return (
-    <FormLayout title="Editar producto">
+    <FormLayout title="Editar producto" linkBack="/productos">
       <FormContainer title="Edita la información del producto">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
