@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 
 import { FormContainer } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
@@ -26,6 +27,8 @@ interface EditProductFormData {
 export const EditProduct = () => {
   const { id } = useParams<{ id: string }>();
 
+  const [isFormReady, setIsFormReady] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -50,18 +53,33 @@ export const EditProduct = () => {
     console.log('id', id);
     const fetchProduct = async () => {
       try {
+        setIsFormReady(true);
         const data = await getProductAction();
-        console.log('data', data);
-        reset(data);
+        const { product } = data;
+
+        setValue('name', product.name);
+        setValue('description', product.description);
+        setValue('category', product.category);
+        setValue('unit_of_measure', product.unit_of_measure);
+        setValue('barcode', product.barcode);
+        setValue('min_stock_level', product.min_stock_level);
+        setValue('max_stock_level', product.max_stock_level);
+        setValue('default_location', product.default_location);
+        setValue('supplier_id', product.supplier_id);
+        setValue('price', product.price.$numberDecimal);
+        setValue('is_batch_tracked', product.is_batch_tracked);
+        setValue('is_expiry_tracked', product.is_expiry_tracked);
       } catch (error) {
         console.error('Error fetching product:', error);
+      } finally {
+        setIsFormReady(false);
       }
     };
 
     if (id) {
       fetchProduct();
     }
-  }, [id, getProductAction, reset]);
+  }, [id, getProductAction, reset, setValue]);
 
   const onSubmit = async (data: EditProductFormData) => {
     try {
@@ -82,6 +100,7 @@ export const EditProduct = () => {
               placeholder="Nombre del producto"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.name?.message}
               {...register('name')}
             />
@@ -91,6 +110,7 @@ export const EditProduct = () => {
               placeholder="Descripción del producto"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.description?.message}
               {...register('description')}
             />
@@ -102,6 +122,7 @@ export const EditProduct = () => {
               placeholder="Categoría del producto"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.category?.message}
               {...register('category')}
             />
@@ -111,6 +132,7 @@ export const EditProduct = () => {
               placeholder="Unidad de medida del producto"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.unit_of_measure?.message}
               {...register('unit_of_measure')}
             />
@@ -122,6 +144,7 @@ export const EditProduct = () => {
               placeholder="Código de barras del producto"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.barcode?.message}
               {...register('barcode')}
             />
@@ -131,6 +154,7 @@ export const EditProduct = () => {
               placeholder="Nivel mínimo de stock"
               required
               type="number"
+              disabled={isFormReady}
               error={errors.min_stock_level?.message}
               {...register('min_stock_level')}
             />
@@ -142,6 +166,7 @@ export const EditProduct = () => {
               placeholder="Nivel máximo de stock"
               required
               type="number"
+              disabled={isFormReady}
               error={errors.max_stock_level?.message}
               {...register('max_stock_level')}
             />
@@ -151,6 +176,7 @@ export const EditProduct = () => {
               placeholder="Ubicación por defecto"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.default_location?.message}
               {...register('default_location')}
             />
@@ -162,6 +188,7 @@ export const EditProduct = () => {
               placeholder="Proveedor"
               required
               type="text"
+              disabled={isFormReady}
               error={errors.supplier_id?.message}
               {...register('supplier_id')}
             />
@@ -171,6 +198,7 @@ export const EditProduct = () => {
               placeholder="Precio"
               required
               type="number"
+              disabled={isFormReady}
               error={errors.price?.message}
               {...register('price')}
             />
@@ -181,6 +209,7 @@ export const EditProduct = () => {
               onChange={(value) => setValue('is_batch_tracked', value)}
               title="Es un lote"
               required
+              disabled={isFormReady}
               error={errors.is_batch_tracked?.message}
             />
             <ToggleSwitch
@@ -188,6 +217,7 @@ export const EditProduct = () => {
               onChange={(value) => setValue('is_expiry_tracked', value)}
               title="Es vencimiento"
               required
+              disabled={isFormReady}
               error={errors.is_expiry_tracked?.message}
             />
           </div>
@@ -197,7 +227,7 @@ export const EditProduct = () => {
               type="submit"
               label="Guardar cambios"
               loading={isLoading}
-              disabled={isLoading}
+              disabled={isLoading || isFormReady}
             />
           </div>
         </form>
