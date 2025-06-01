@@ -59,7 +59,7 @@ export const AddStock = () => {
   };
 
   return (
-    <FormLayout title="Agregar stock">
+    <FormLayout title="Agregar stock" linkBack="/stock">
       <FormContainer title="Completa la información del stock">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
