@@ -18,7 +18,9 @@ interface UpdateWarehouseFormData {
 export const useEditWarehouse = (id: string) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [warehouse, setWarehouse] = useState<UpdateWarehouseFormData | null>(null);
+  const [warehouse, setWarehouse] = useState<UpdateWarehouseFormData | null>(
+    null
+  );
 
   const getWarehouseAction = useCallback(async () => {
     setIsLoading(true);
@@ -41,29 +43,32 @@ export const useEditWarehouse = (id: string) => {
     }
   }, [id]);
 
-  const updateWarehouseAction = useCallback(async (data: UpdateWarehouseFormData) => {
-    setIsLoading(true);
-    setError(null);
-    const loadingToast = toast.loading('Actualizando almacén...');
+  const updateWarehouseAction = useCallback(
+    async (data: UpdateWarehouseFormData) => {
+      setIsLoading(true);
+      setError(null);
+      const loadingToast = toast.loading('Actualizando almacén...');
 
-    try {
-      await updateWarehouse(id, data);
-      toast.dismiss(loadingToast);
-      toast.success('Almacén actualizado correctamente');
-    } catch (error) {
-      const axiosError = error as AxiosError<{ message: string }>;
-      const errorMessage =
-        axiosError?.response?.data?.message ||
-        axiosError?.message ||
-        'Error al actualizar el almacén';
-      setError(errorMessage);
-      toast.dismiss(loadingToast);
-      toast.error(errorMessage);
-      throw error;
-    } finally {
-      setIsLoading(false);
-    }
-  }, [id]);
+      try {
+        await updateWarehouse(id, data);
+        toast.dismiss(loadingToast);
+        toast.success('Almacén actualizado correctamente');
+      } catch (error) {
+        const axiosError = error as AxiosError<{ message: string }>;
+        const errorMessage =
+          axiosError?.response?.data?.message ||
+          axiosError?.message ||
+          'Error al actualizar el almacén';
+        setError(errorMessage);
+        toast.dismiss(loadingToast);
+        toast.error(errorMessage);
+        throw error;
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [id]
+  );
 
   return {
     isLoading,
@@ -72,4 +77,4 @@ export const useEditWarehouse = (id: string) => {
     getWarehouseAction,
     updateWarehouseAction,
   };
-}; 
+};

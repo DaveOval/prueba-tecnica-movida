@@ -1,6 +1,7 @@
+import { useEffect, useState } from 'react';
+
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useEffect } from 'react';
 
 import { FormContainer } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
@@ -21,7 +22,9 @@ interface EditWarehouseFormData {
 
 export const EditWarehouse = () => {
   const { id } = useParams<{ id: string }>();
-  
+
+  const [isFormReady, setIsFormReady] = useState(false);
+
   const {
     register,
     handleSubmit,
@@ -38,15 +41,20 @@ export const EditWarehouse = () => {
 
   const isDefault = watch('Default');
 
-  const { isLoading, error, getWarehouseAction, updateWarehouseAction } = useEditWarehouse(id || '');
+  const { isLoading, error, getWarehouseAction, updateWarehouseAction } =
+    useEditWarehouse(id || '');
 
   useEffect(() => {
     const fetchWarehouse = async () => {
       try {
+        setIsFormReady(true);
         const data = await getWarehouseAction();
+        console.log('data', data);
         reset(data);
       } catch (error) {
         console.error('Error fetching warehouse:', error);
+      } finally {
+        setIsFormReady(false);
       }
     };
 
@@ -64,64 +72,77 @@ export const EditWarehouse = () => {
   };
 
   return (
-    <FormLayout title="Editar almacén">
+    <FormLayout title="Editar almacén" linkBack="/almacenes">
       <FormContainer title="Edita la información del almacén">
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Input
-            label="Nombre del almacén"
-            id="warehouse_name"
-            placeholder="Nombre del almacén"
-            required
-            type="text"
-            error={errors.warehouse_name?.message}
-            {...register('warehouse_name')}
-          />
-          <Input
-            label="Código del almacén"
-            id="warehouse_code"
-            placeholder="Código del almacén"
-            required
-            type="text"
-            error={errors.warehouse_code?.message}
-            {...register('warehouse_code')}
-          />
-          <Input
-            label="Metros cuadrados"
-            id="square_meters"
-            placeholder="Metros cuadrados"
-            required
-            type="number"
-            error={errors.square_meters?.message}
-            {...register('square_meters')}
-          />
-          <Input
-            label="Número de pasillos"
-            id="aisle_count"
-            placeholder="Número de pasillos"
-            required
-            type="number"
-            error={errors.aisle_count?.message}
-            {...register('aisle_count')}
-          />
-          <Input
-            label="Racks por pasillo"
-            id="racks_per_aisle"
-            placeholder="Racks por pasillo"
-            required
-            type="number"
-            error={errors.racks_per_aisle?.message}
-            {...register('racks_per_aisle')}
-          />
-          <Input
-            label="Niveles por rack"
-            id="levels_per_rack"
-            placeholder="Niveles por rack"
-            required
-            type="number"
-            error={errors.levels_per_rack?.message}
-            {...register('levels_per_rack')}
-          />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Input
+              label="Nombre del almacén"
+              id="warehouse_name"
+              placeholder="Nombre del almacén"
+              required
+              disabled={isFormReady}
+              type="text"
+              error={errors.warehouse_name?.message}
+              {...register('warehouse_name')}
+            />
+            <Input
+              label="Código del almacén"
+              id="warehouse_code"
+              placeholder="Código del almacén"
+              required
+              disabled={isFormReady}
+              type="text"
+              error={errors.warehouse_code?.message}
+              {...register('warehouse_code')}
+            />
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Input
+              label="Metros cuadrados"
+              id="square_meters"
+              placeholder="Metros cuadrados"
+              required
+              disabled={isFormReady}
+              type="number"
+              error={errors.square_meters?.message}
+              {...register('square_meters')}
+            />
+            <Input
+              label="Número de pasillos"
+              id="aisle_count"
+              placeholder="Número de pasillos"
+              required
+              disabled={isFormReady}
+              type="number"
+              error={errors.aisle_count?.message}
+              {...register('aisle_count')}
+            />
+          </div>
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Input
+              label="Racks por pasillo"
+              id="racks_per_aisle"
+              placeholder="Racks por pasillo"
+              required
+              disabled={isFormReady}
+              type="number"
+              error={errors.racks_per_aisle?.message}
+              {...register('racks_per_aisle')}
+            />
+            <Input
+              label="Niveles por rack"
+              id="levels_per_rack"
+              placeholder="Niveles por rack"
+              required
+              disabled={isFormReady}
+              type="number"
+              error={errors.levels_per_rack?.message}
+              {...register('levels_per_rack')}
+            />
+          </div>
           <ToggleSwitch
+            disabled={isFormReady}
             checked={isDefault}
             onChange={(value) => setValue('Default', value)}
             title="Almacén por defecto"
@@ -129,12 +150,14 @@ export const EditWarehouse = () => {
             error={errors.Default?.message}
           />
           {error && <p className="text-red-500">{error}</p>}
-          <SubmitButton
-            type="submit"
-            label="Guardar cambios"
-            loading={isLoading}
-            disabled={isLoading}
-          />
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
+            <SubmitButton
+              type="submit"
+              label="Guardar cambios"
+              loading={isLoading}
+              disabled={isLoading || isFormReady}
+            />
+          </div>
         </form>
       </FormContainer>
     </FormLayout>

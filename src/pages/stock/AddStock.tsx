@@ -40,7 +40,6 @@ export const AddStock = () => {
 
   const onSubmit = async (data: AddStockFormData) => {
     try {
-      // Format dates to ISO string
       const formattedData = {
         ...data,
         expiry_date: new Date(data.expiry_date).toISOString(),

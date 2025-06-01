@@ -7,6 +7,7 @@ import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
 import { useAddWarehouse } from '../../hooks/warehouses/useAddWarehouse';
+import { useNavigate } from 'react-router-dom';
 
 interface AddWarehouseFormData {
   warehouse_name: string;
@@ -20,6 +21,7 @@ interface AddWarehouseFormData {
 }
 
 export const AddWarehouse = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
@@ -43,6 +45,7 @@ export const AddWarehouse = () => {
       await addWarehouseAction(data);
       toast.success('Almacén agregado correctamente');
       reset();
+      navigate('/almacenes');
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =
@@ -54,7 +57,7 @@ export const AddWarehouse = () => {
   };
 
   return (
-    <FormLayout title="Agregar almacén">
+    <FormLayout title="Agregar almacén" linkBack="/almacenes">
       <FormContainer title="Completa la información del almacén">
         <form onSubmit={handleSubmit(onSubmit)}>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
