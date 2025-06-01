@@ -36,9 +36,41 @@ interface StockResponse {
   stock: Stock[];
 }
 
+interface SingleStockResponse {
+  message: string;
+  stock: Stock;
+}
+
+interface StockUpdate {
+  warehouse_id?: { _id: string };
+  location_code?: string;
+  batch_number?: string;
+  expiry_date?: string;
+  serial_number?: string;
+  quantity?: number;
+  reserved_quantity?: number;
+  available_quantity?: number;
+  status?: string;
+}
+
 const STOCK_ENDPOINT = 'stock';
 
 export const getStock = async () => {
   const response = await api.get<StockResponse>(STOCK_ENDPOINT);
+  return response.data;
+};
+
+export const getStockById = async (id: string) => {
+  const response = await api.get<SingleStockResponse>(
+    `${STOCK_ENDPOINT}/${id}`
+  );
+  return response.data;
+};
+
+export const updateStock = async (id: string, data: StockUpdate) => {
+  const response = await api.patch<SingleStockResponse>(
+    `${STOCK_ENDPOINT}/${id}`,
+    data
+  );
   return response.data;
 };
