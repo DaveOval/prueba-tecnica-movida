@@ -35,7 +35,6 @@ const EditButton = ({ id }: { id: string }) => {
 
 const DeleteProduct = ({ id }: { id: string }) => {
   const { deleteProductAction } = useDeleteProduct(() => {
-    // Refresh the products list after successful deletion
     window.location.reload();
   });
 
