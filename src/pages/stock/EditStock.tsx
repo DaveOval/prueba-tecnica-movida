@@ -2,12 +2,11 @@ import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
-import { FormContainer } from '../../components/common';
+import { FormContainer, ToggleSwitch } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
 import { useEditStock } from '../../hooks/stock/useEditStock';
-import { useDeleteStock } from '../../hooks/stock/useDeleteStock';
 
 interface EditStockFormData {
   warehouse_id: string;
@@ -31,14 +30,14 @@ export const EditStock = () => {
     handleSubmit,
     formState: { errors },
     setValue,
+    watch,
   } = useForm<EditStockFormData>();
+
+  const isDefault = watch('status');
 
   const { isLoading, error, getStockAction, updateStockAction } = useEditStock(
     id || ''
   );
-  const { deleteStockAction } = useDeleteStock(() => {
-    navigate('/stock');
-  });
 
   useEffect(() => {
     const fetchStock = async () => {
@@ -77,16 +76,6 @@ export const EditStock = () => {
       navigate('/stock');
     } catch (error) {
       console.error('Error updating stock:', error);
-    }
-  };
-
-  const handleDelete = () => {
-    if (
-      window.confirm(
-        '¿Estás seguro de que deseas eliminar este registro de stock?'
-      )
-    ) {
-      deleteStockAction(id || '');
     }
   };
 
@@ -171,15 +160,14 @@ export const EditStock = () => {
               error={errors.available_quantity?.message}
               {...register('available_quantity')}
             />
-            <Input
-              label="Estado"
-              id="status"
-              placeholder="Estado"
+            <ToggleSwitch
+              checked={isDefault === 'Activo'}
+              onChange={(value) =>
+                setValue('status', value ? 'Activo' : 'Inactivo')
+              }
+              title="Estado"
               required
-              type="text"
-              disabled={isFormReady}
               error={errors.status?.message}
-              {...register('status')}
             />
           </div>
           {error && <p className="text-red-500">{error}</p>}
@@ -190,14 +178,6 @@ export const EditStock = () => {
               loading={isLoading}
               disabled={isLoading || isFormReady}
             />
-            <button
-              type="button"
-              onClick={handleDelete}
-              className="px-4 py-2 text-white bg-red-600 rounded hover:bg-red-700 disabled:opacity-50 disabled:cursor-not-allowed"
-              disabled={isLoading || isFormReady}
-            >
-              Eliminar
-            </button>
           </div>
         </form>
       </FormContainer>
