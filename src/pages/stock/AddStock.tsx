@@ -2,11 +2,12 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 
-import { FormContainer } from '../../components/common';
+import { FormContainer, ToggleSwitch } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
 import { useAddStock } from '../../hooks/stock/useAddStock';
+import { useNavigate } from 'react-router-dom';
 
 interface AddStockFormData {
   product_id: string;
@@ -23,10 +24,14 @@ interface AddStockFormData {
 }
 
 export const AddStock = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
+    watch,
+    setValue,
+    reset,
   } = useForm<AddStockFormData>({
     defaultValues: {
       status: 'Activo',
@@ -35,6 +40,8 @@ export const AddStock = () => {
       available_quantity: 0,
     },
   });
+
+  const isDefault = watch('status');
 
   const { isLoading, addStockAction, error } = useAddStock();
 
@@ -48,6 +55,8 @@ export const AddStock = () => {
 
       await addStockAction(formattedData);
       toast.success('Stock agregado correctamente');
+      reset();
+      navigate('/stock');
     } catch (error) {
       const axiosError = error as AxiosError<{ message: string }>;
       const errorMessage =
@@ -199,7 +208,16 @@ export const AddStock = () => {
             />
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Input
+            <ToggleSwitch
+              checked={isDefault === 'Activo'}
+              onChange={(value) =>
+                setValue('status', value ? 'Activo' : 'Inactivo')
+              }
+              title="Estado"
+              required
+              error={errors.status?.message}
+            />
+            {/* <Input
               label="Estado"
               id="status"
               placeholder="Ej: Activo"
@@ -213,7 +231,7 @@ export const AddStock = () => {
                   value === 'Inactivo' ||
                   'El estado debe ser Activo o Inactivo',
               })}
-            />
+            /> */}
           </div>
           {error && <p className="text-red-500">{error}</p>}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
