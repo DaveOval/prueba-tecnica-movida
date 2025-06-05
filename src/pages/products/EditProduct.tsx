@@ -103,7 +103,24 @@ export const EditProduct = () => {
               type="text"
               disabled={isFormReady}
               error={errors.name?.message}
-              {...register('name')}
+              {...register('name', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message: 'El nombre debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 100,
+                  message: 'El nombre no puede exceder los 100 caracteres',
+                },
+                validate: (value) => {
+                  const forbiddenPattern = /['";,]|--|\/\*|\*\//;
+                  return (
+                    !forbiddenPattern.test(value) ||
+                    'El nombre contiene caracteres no permitidos'
+                  );
+                },
+              })}
             />
             <Input
               label="Descripción"
@@ -113,7 +130,24 @@ export const EditProduct = () => {
               type="text"
               disabled={isFormReady}
               error={errors.description?.message}
-              {...register('description')}
+              {...register('description', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message: 'La descripción debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 500,
+                  message: 'La descripción no puede exceder los 500 caracteres',
+                },
+                validate: (value) => {
+                  const forbiddenPattern = /['";,]|--|\/\*|\*\//;
+                  return (
+                    !forbiddenPattern.test(value) ||
+                    'La descripción contiene caracteres no permitidos'
+                  );
+                },
+              })}
             />
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">

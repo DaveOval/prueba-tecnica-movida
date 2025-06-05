@@ -2,7 +2,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   id: string;
   placeholder: string;
-  required: boolean;
+  required?: boolean;
   error?: string;
   type?: string;
 }
@@ -11,7 +11,7 @@ export const Input = ({
   label,
   id,
   placeholder,
-  required,
+  required = false,
   error,
   type = 'text',
   ...props
