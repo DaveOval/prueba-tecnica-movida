@@ -95,7 +95,7 @@ export const AddWarehouse = () => {
             <Input
               label="Código del almacén"
               id="warehouse_code"
-              placeholder="Código del almacén"
+              placeholder="Código corto para identificarlo (Ej: ALM1, TEST)"
               required
               type="text"
               error={errors.warehouse_code?.message}
@@ -125,7 +125,7 @@ export const AddWarehouse = () => {
             <Input
               label="Metros cuadrados"
               id="square_meters"
-              placeholder="Metros cuadrados"
+              placeholder="Metros cuadrados del almacén"
               required
               type="number"
               error={errors.square_meters?.message}

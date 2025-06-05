@@ -54,7 +54,6 @@ export const EditWarehouse = () => {
       try {
         setIsFormReady(true);
         const data = await getWarehouseAction();
-        console.log('data', data);
         setValue('warehouse_name', data.warehouse_name);
         setValue('warehouse_code', data.warehouse_code);
         setValue('square_meters', data.square_meters);
@@ -73,7 +72,7 @@ export const EditWarehouse = () => {
     if (id) {
       fetchWarehouse();
     }
-  }, [id, getWarehouseAction, reset]);
+  }, [id, getWarehouseAction, reset, setValue]);
 
   const onSubmit = async (data: EditWarehouseFormData) => {
     try {
@@ -127,7 +126,7 @@ export const EditWarehouse = () => {
             <Input
               label="Código del almacén"
               id="warehouse_code"
-              placeholder="Código del almacén"
+              placeholder="Código corto para identificarlo (Ej: ALM1, TEST)"
               required
               disabled={isFormReady}
               type="text"
@@ -158,7 +157,7 @@ export const EditWarehouse = () => {
             <Input
               label="Metros cuadrados"
               id="square_meters"
-              placeholder="Metros cuadrados"
+              placeholder="Metros cuadrados del almacén"
               required
               disabled={isFormReady}
               type="number"
