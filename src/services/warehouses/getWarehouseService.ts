@@ -13,11 +13,14 @@ interface Warehouse {
   created_at: string;
   updated_at: string;
   __v: number;
+  bodegas: Warehouse;
+  bodega: Warehouse;
 }
 
 const WAREHOUSES_ENDPOINT = 'warehouse';
 
 export const getWarehouse = async (id: string) => {
   const response = await api.get<Warehouse>(`${WAREHOUSES_ENDPOINT}/${id}`);
-  return response.data;
-}; 
+  console.log('response', response.data);
+  return response.data.bodega;
+};

@@ -7,6 +7,7 @@ interface Warehouse {
   location: string;
   description: string;
   __v: number;
+  bodegas: Warehouse;
 }
 
 interface WarehousesResponse {
