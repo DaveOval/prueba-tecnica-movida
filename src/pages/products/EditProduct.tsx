@@ -154,34 +154,75 @@ export const EditProduct = () => {
             <Input
               label="Categoría"
               id="category"
-              placeholder="Categoría del producto"
+              placeholder="Categoría o familia (Ej: Bebidas, Componentes, etc.)"
               required
               type="text"
               disabled={isFormReady}
               error={errors.category?.message}
-              {...register('category')}
+              {...register('category', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message: 'La categoría debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message: 'La categoría no puede exceder los 50 caracteres',
+                },
+                validate: (value) => {
+                  const forbiddenPattern = /['";,]|--|\/\*|\*\//;
+                  return (
+                    !forbiddenPattern.test(value) ||
+                    'La categoría contiene caracteres no permitidos'
+                  );
+                },
+              })}
             />
             <Input
               label="Unidad de medida"
               id="unit_of_measure"
-              placeholder="Unidad de medida del producto"
+              placeholder="Unidad principal de medida (Ej: kg, pieza, caja)"
               required
               type="text"
               disabled={isFormReady}
               error={errors.unit_of_measure?.message}
-              {...register('unit_of_measure')}
+              {...register('unit_of_measure', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'La unidad de medida debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 10,
+                  message:
+                    'La unidad de medida no puede exceder los 10 caracteres',
+                },
+              })}
             />
           </div>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Código de barras"
               id="barcode"
-              placeholder="Código de barras del producto"
-              required
+              placeholder="Código de barras"
               type="text"
               disabled={isFormReady}
               error={errors.barcode?.message}
-              {...register('barcode')}
+              {...register('barcode', {
+                required: false,
+                minLength: {
+                  value: 3,
+                  message:
+                    'El código de barras debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message:
+                    'El código de barras no puede exceder los 50 caracteres',
+                },
+              })}
             />
             <Input
               label="Nivel mínimo de stock"

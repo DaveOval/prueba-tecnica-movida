@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 
-import { FormContainer } from '../../components/common';
+import { FormContainer, InputSelect } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
@@ -14,6 +14,9 @@ interface AddProductFormData {
   description: string;
   category: string;
   unit_of_measure: string;
+  unidad_base: string;
+  unidad_logistica: string;
+  factor_conversion: number;
   barcode: string;
   is_batch_tracked: boolean;
   is_expiry_tracked: boolean;
@@ -22,6 +25,7 @@ interface AddProductFormData {
   default_location: string;
   supplier_id: string;
   price: number;
+  status: string;
 }
 
 export const AddProduct = () => {
@@ -119,87 +123,225 @@ export const AddProduct = () => {
               })}
             />
           </div>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Input
+            <InputSelect
               label="Categoría"
               id="category"
-              placeholder="Categoría del producto"
+              placeholder="Categoría o familia (Ej: Bebidas, Componentes, etc.)"
               required
-              type="text"
               error={errors.category?.message}
-              {...register('category')}
+              options={[
+                { label: 'Bebidas', value: 'bebidas' },
+                { label: 'Componentes', value: 'componentes' },
+                { label: 'Electrónica', value: 'electronica' },
+                { label: 'Herramientas', value: 'herramientas' },
+                { label: 'Hogar', value: 'hogar' },
+              ]}
+              {...register('category', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message: 'La categoría debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message: 'La categoría no puede exceder los 50 caracteres',
+                },
+                validate: (value) => {
+                  const forbiddenPattern = /['";,]|--|\/\*|\*\//;
+                  return (
+                    !forbiddenPattern.test(value) ||
+                    'La categoría contiene caracteres no permitidos'
+                  );
+                },
+              })}
             />
             <Input
               label="Unidad de medida"
               id="unit_of_measure"
-              placeholder="Unidad de medida del producto"
+              placeholder="Unidad principal de medida (Ej: kg, pieza, caja)"
               required
               type="text"
               error={errors.unit_of_measure?.message}
-              {...register('unit_of_measure')}
+              {...register('unit_of_measure', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'La unidad de medida debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 10,
+                  message:
+                    'La unidad de medida no puede exceder los 10 caracteres',
+                },
+              })}
             />
           </div>
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
-              label="Código de barras"
-              id="barcode"
-              placeholder="Código de barras del producto"
+              label="Unidad base"
+              id="unidad_base"
+              placeholder="Unidad mínima de inventario (Ej: pieza, caja, etc.)"
+              type="text"
+              required
+              error={errors.unidad_base?.message}
+              {...register('unidad_base', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'El código de barras debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message:
+                    'El código de barras no puede exceder los 50 caracteres',
+                },
+              })}
+            />
+            <Input
+              label="Unidad logística"
+              id="unidad_logistica"
+              placeholder="Unidad en la que se recibe/envía (Ej: 'caja')"
               required
               type="text"
-              error={errors.barcode?.message}
-              {...register('barcode')}
+              error={errors.unidad_logistica?.message}
+              {...register('unidad_logistica', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'La unidad logística debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message:
+                    'La unidad logística no puede exceder los 50 caracteres',
+                },
+              })}
             />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Input
+              label="Factor de conversión"
+              id="factor_conversion"
+              placeholder="Factor de conversión"
+              type="number"
+              error={errors.factor_conversion?.message}
+              {...register('factor_conversion', {
+                required: false,
+              })}
+            />
+            <Input
+              label="Código de barras"
+              id="barcode"
+              placeholder="Código de barras"
+              type="text"
+              error={errors.barcode?.message}
+              {...register('barcode', {
+                required: false,
+                minLength: {
+                  value: 3,
+                  message:
+                    'El código de barras debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message:
+                    'El código de barras no puede exceder los 50 caracteres',
+                },
+              })}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Nivel mínimo de stock"
               id="min_stock_level"
-              placeholder="Nivel mínimo de stock"
-              required
+              placeholder="Nivel mínimo para alertas de inventario bajo"
               type="number"
               error={errors.min_stock_level?.message}
-              {...register('min_stock_level')}
+              {...register('min_stock_level', {
+                required: false,
+              })}
             />
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Nivel máximo de stock"
               id="max_stock_level"
-              placeholder="Nivel máximo de stock"
-              required
+              placeholder="Nivel máximo recomendado (para planeación)"
               type="number"
               error={errors.max_stock_level?.message}
-              {...register('max_stock_level')}
+              {...register('max_stock_level', {
+                required: false,
+              })}
             />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Ubicación por defecto"
               id="default_location"
-              placeholder="Ubicación por defecto"
-              required
+              placeholder="Ubicación estándar en almacén (Ej: A1-R1-E3)"
               type="text"
               error={errors.default_location?.message}
-              {...register('default_location')}
+              {...register('default_location', {
+                required: false,
+                minLength: {
+                  value: 3,
+                  message: 'La ubicación debe tener al menos 3 caracteres',
+                },
+              })}
+            />
+            <InputSelect
+              label="Proveedor"
+              id="supplier_id"
+              placeholder="ID del proveedor principa"
+              error={errors.supplier_id?.message}
+              options={[]}
+              {...register('supplier_id', {
+                required: false,
+              })}
             />
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
-              label="Proveedor"
-              id="supplier_id"
-              placeholder="Proveedor"
-              required
-              type="text"
-              error={errors.supplier_id?.message}
-              {...register('supplier_id')}
-            />
-            <Input
               label="Precio"
               id="price"
-              placeholder="Precio"
-              required
+              placeholder="Precio unitario de referencia"
               type="number"
               error={errors.price?.message}
-              {...register('price')}
+              {...register('price', {
+                required: false,
+                min: {
+                  value: 0,
+                  message: 'El precio debe ser mayor a 0',
+                },
+                max: {
+                  value: 1000000,
+                  message: 'El precio no puede exceder los 1,000,000',
+                },
+              })}
+            />
+            <InputSelect
+              label="Estado"
+              id="status"
+              placeholder="Estado del producto"
+              error={errors.status?.message}
+              {...register('status', {
+                required: false,
+              })}
+              options={[
+                { label: 'Activo', value: 'active', selected: true },
+                { label: 'Inactivo', value: 'inactive' },
+                { label: 'Obsoleto', value: 'obsolete' },
+              ]}
             />
           </div>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <ToggleSwitch
               checked={isBatchTracked}
@@ -216,6 +358,7 @@ export const AddProduct = () => {
               error={errors.is_expiry_tracked?.message}
             />
           </div>
+
           {error && <p className="text-red-500">{error}</p>}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
             <SubmitButton
