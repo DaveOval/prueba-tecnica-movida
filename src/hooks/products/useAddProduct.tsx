@@ -7,6 +7,9 @@ interface AddProductFormData {
   description: string;
   category: string;
   unit_of_measure: string;
+  unidad_base: string;
+  unidad_logistica: string;
+  factor_conversion: number;
   barcode: string;
   is_batch_tracked: boolean;
   is_expiry_tracked: boolean;
@@ -15,6 +18,7 @@ interface AddProductFormData {
   default_location: string;
   supplier_id: string;
   price: number;
+  status: string;
 }
 
 export const useAddProduct = () => {

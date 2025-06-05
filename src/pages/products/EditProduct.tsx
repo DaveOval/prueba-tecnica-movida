@@ -1,19 +1,24 @@
 import { useEffect, useState } from 'react';
-
 import { useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+import { AxiosError } from 'axios';
 
-import { FormContainer } from '../../components/common';
+import { FormContainer, InputSelect } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
 import { useEditProduct } from '../../hooks/products/useEditProduct';
+import { useNavigate } from 'react-router-dom';
 
 interface EditProductFormData {
   name: string;
   description: string;
   category: string;
   unit_of_measure: string;
+  unidad_base: string;
+  unidad_logistica: string;
+  factor_conversion: number;
   barcode: string;
   is_batch_tracked: boolean;
   is_expiry_tracked: boolean;
@@ -22,11 +27,12 @@ interface EditProductFormData {
   default_location: string;
   supplier_id: string;
   price: number;
+  status: string;
 }
 
 export const EditProduct = () => {
   const { id } = useParams<{ id: string }>();
-
+  const navigate = useNavigate();
   const [isFormReady, setIsFormReady] = useState(false);
 
   const {
@@ -50,7 +56,6 @@ export const EditProduct = () => {
     useEditProduct(id || '');
 
   useEffect(() => {
-    console.log('id', id);
     const fetchProduct = async () => {
       try {
         setIsFormReady(true);
@@ -62,12 +67,16 @@ export const EditProduct = () => {
         setValue('description', product.description);
         setValue('category', product.category);
         setValue('unit_of_measure', product.unit_of_measure);
+        setValue('unidad_base', product.unidad_base);
+        setValue('unidad_logistica', product.unidad_logistica);
+        setValue('factor_conversion', product.factor_conversion);
         setValue('barcode', product.barcode);
         setValue('min_stock_level', product.min_stock_level);
         setValue('max_stock_level', product.max_stock_level);
         setValue('default_location', product.default_location);
         setValue('supplier_id', product.supplier_id);
         setValue('price', product.price.$numberDecimal);
+        setValue('status', product.status);
         setValue('is_batch_tracked', product.is_batch_tracked);
         setValue('is_expiry_tracked', product.is_expiry_tracked);
       } catch (error) {
@@ -85,8 +94,15 @@ export const EditProduct = () => {
   const onSubmit = async (data: EditProductFormData) => {
     try {
       await updateProductAction(data);
+      toast.success('Producto actualizado correctamente');
+      navigate('/productos');
     } catch (error) {
-      console.error('Error updating product:', error);
+      const axiosError = error as AxiosError<{ message: string }>;
+      const errorMessage =
+        axiosError?.response?.data?.message ||
+        axiosError?.message ||
+        'Error al actualizar el producto';
+      toast.error(errorMessage);
     }
   };
 
@@ -150,15 +166,22 @@ export const EditProduct = () => {
               })}
             />
           </div>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Input
+            <InputSelect
               label="Categoría"
               id="category"
               placeholder="Categoría o familia (Ej: Bebidas, Componentes, etc.)"
               required
-              type="text"
-              disabled={isFormReady}
               error={errors.category?.message}
+              disabled={isFormReady}
+              options={[
+                { label: 'Bebidas', value: 'bebidas' },
+                { label: 'Componentes', value: 'componentes' },
+                { label: 'Electrónica', value: 'electronica' },
+                { label: 'Herramientas', value: 'herramientas' },
+                { label: 'Hogar', value: 'hogar' },
+              ]}
               {...register('category', {
                 required: true,
                 minLength: {
@@ -204,6 +227,64 @@ export const EditProduct = () => {
 
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
+              label="Unidad base"
+              id="unidad_base"
+              placeholder="Unidad mínima de inventario (Ej: pieza, caja, etc.)"
+              type="text"
+              required
+              disabled={isFormReady}
+              error={errors.unidad_base?.message}
+              {...register('unidad_base', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'El código de barras debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message:
+                    'El código de barras no puede exceder los 50 caracteres',
+                },
+              })}
+            />
+            <Input
+              label="Unidad logística"
+              id="unidad_logistica"
+              placeholder="Unidad en la que se recibe/envía (Ej: 'caja')"
+              required
+              type="text"
+              disabled={isFormReady}
+              error={errors.unidad_logistica?.message}
+              {...register('unidad_logistica', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'La unidad logística debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 50,
+                  message:
+                    'La unidad logística no puede exceder los 50 caracteres',
+                },
+              })}
+            />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            <Input
+              label="Factor de conversión"
+              id="factor_conversion"
+              placeholder="Factor de conversión"
+              type="number"
+              disabled={isFormReady}
+              error={errors.factor_conversion?.message}
+              {...register('factor_conversion', {
+                required: false,
+              })}
+            />
+            <Input
               label="Código de barras"
               id="barcode"
               placeholder="Código de barras"
@@ -224,61 +305,99 @@ export const EditProduct = () => {
                 },
               })}
             />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Nivel mínimo de stock"
               id="min_stock_level"
-              placeholder="Nivel mínimo de stock"
-              required
+              placeholder="Nivel mínimo para alertas de inventario bajo"
               type="number"
               disabled={isFormReady}
               error={errors.min_stock_level?.message}
-              {...register('min_stock_level')}
+              {...register('min_stock_level', {
+                required: false,
+              })}
             />
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Nivel máximo de stock"
               id="max_stock_level"
-              placeholder="Nivel máximo de stock"
-              required
+              placeholder="Nivel máximo recomendado (para planeación)"
               type="number"
               disabled={isFormReady}
               error={errors.max_stock_level?.message}
-              {...register('max_stock_level')}
+              {...register('max_stock_level', {
+                required: false,
+              })}
             />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Ubicación por defecto"
               id="default_location"
-              placeholder="Ubicación por defecto"
-              required
+              placeholder="Ubicación estándar en almacén (Ej: A1-R1-E3)"
               type="text"
               disabled={isFormReady}
               error={errors.default_location?.message}
-              {...register('default_location')}
+              {...register('default_location', {
+                required: false,
+                minLength: {
+                  value: 3,
+                  message: 'La ubicación debe tener al menos 3 caracteres',
+                },
+              })}
             />
-          </div>
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            <Input
+            <InputSelect
               label="Proveedor"
               id="supplier_id"
-              placeholder="Proveedor"
-              required
-              type="text"
+              placeholder="ID del proveedor principal"
               disabled={isFormReady}
               error={errors.supplier_id?.message}
-              {...register('supplier_id')}
+              options={[]}
+              {...register('supplier_id', {
+                required: false,
+              })}
             />
+          </div>
+
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <Input
               label="Precio"
               id="price"
-              placeholder="Precio"
-              required
+              placeholder="Precio unitario de referencia"
               type="number"
               disabled={isFormReady}
               error={errors.price?.message}
-              {...register('price')}
+              {...register('price', {
+                required: false,
+                min: {
+                  value: 0,
+                  message: 'El precio debe ser mayor a 0',
+                },
+                max: {
+                  value: 1000000,
+                  message: 'El precio no puede exceder los 1,000,000',
+                },
+              })}
+            />
+            <InputSelect
+              label="Estado"
+              id="status"
+              placeholder="Estado del producto"
+              disabled={isFormReady}
+              error={errors.status?.message}
+              {...register('status', {
+                required: false,
+              })}
+              options={[
+                { label: 'Activo', value: 'Activo', selected: true },
+                { label: 'Inactivo', value: 'Inactivo' },
+                { label: 'Obsoleto', value: 'Obsoleto' },
+              ]}
             />
           </div>
+
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <ToggleSwitch
               checked={isBatchTracked}
@@ -297,6 +416,7 @@ export const EditProduct = () => {
               error={errors.is_expiry_tracked?.message}
             />
           </div>
+
           {error && <p className="text-red-500">{error}</p>}
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2 mt-4">
             <SubmitButton

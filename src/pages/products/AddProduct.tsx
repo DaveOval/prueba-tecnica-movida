@@ -335,9 +335,9 @@ export const AddProduct = () => {
                 required: false,
               })}
               options={[
-                { label: 'Activo', value: 'active', selected: true },
-                { label: 'Inactivo', value: 'inactive' },
-                { label: 'Obsoleto', value: 'obsolete' },
+                { label: 'Activo', value: 'Activo', selected: true },
+                { label: 'Inactivo', value: 'Inactivo' },
+                { label: 'Obsoleto', value: 'Obsoleto' },
               ]}
             />
           </div>
