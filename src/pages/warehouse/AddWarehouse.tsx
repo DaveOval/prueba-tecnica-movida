@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
 
-import { FormContainer } from '../../components/common';
+import { FormContainer, InputSelect } from '../../components/common';
 import { FormLayout } from '../../components/layout/';
 import { Input, ToggleSwitch } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
@@ -16,7 +16,7 @@ interface AddWarehouseFormData {
   aisle_count: number;
   racks_per_aisle: number;
   levels_per_rack: number;
-  Default: boolean;
+  default: boolean;
   status: string;
 }
 
@@ -31,12 +31,15 @@ export const AddWarehouse = () => {
     reset,
   } = useForm<AddWarehouseFormData>({
     defaultValues: {
-      Default: false,
       status: 'Activo',
+      default: true,
+      aisle_count: 1,
+      racks_per_aisle: 1,
+      levels_per_rack: 1,
     },
   });
 
-  const isDefault = watch('Default');
+  const isDefault = watch('default');
 
   const { isLoading, addWarehouseAction, error } = useAddWarehouse();
 
@@ -68,7 +71,26 @@ export const AddWarehouse = () => {
               required
               type="text"
               error={errors.warehouse_name?.message}
-              {...register('warehouse_name')}
+              {...register('warehouse_name', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'El nombre del almacén debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 100,
+                  message:
+                    'El nombre del almacén no puede exceder los 100 caracteres',
+                },
+                validate: (value) => {
+                  const forbiddenPattern = /['";,]|--|\/\*|\*\//;
+                  return (
+                    !forbiddenPattern.test(value) ||
+                    'El nombre del almacén contiene caracteres no permitidos'
+                  );
+                },
+              })}
             />
             <Input
               label="Código del almacén"
@@ -77,7 +99,26 @@ export const AddWarehouse = () => {
               required
               type="text"
               error={errors.warehouse_code?.message}
-              {...register('warehouse_code')}
+              {...register('warehouse_code', {
+                required: true,
+                minLength: {
+                  value: 3,
+                  message:
+                    'El código del almacén debe tener al menos 3 caracteres',
+                },
+                maxLength: {
+                  value: 10,
+                  message:
+                    'El código del almacén no puede exceder los 10 caracteres',
+                },
+                validate: (value) => {
+                  const forbiddenPattern = /['";,]|--|\/\*|\*\//;
+                  return (
+                    !forbiddenPattern.test(value) ||
+                    'El código del almacén contiene caracteres no permitidos'
+                  );
+                },
+              })}
             />
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -88,7 +129,13 @@ export const AddWarehouse = () => {
               required
               type="number"
               error={errors.square_meters?.message}
-              {...register('square_meters')}
+              {...register('square_meters', {
+                required: true,
+                min: {
+                  value: 1,
+                  message: 'El área debe ser mayor a 0',
+                },
+              })}
             />
             <Input
               label="Número de pasillos"
@@ -97,7 +144,13 @@ export const AddWarehouse = () => {
               required
               type="number"
               error={errors.aisle_count?.message}
-              {...register('aisle_count')}
+              {...register('aisle_count', {
+                required: true,
+                min: {
+                  value: 1,
+                  message: 'El número de pasillos debe ser mayor a 0',
+                },
+              })}
             />
           </div>
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -123,10 +176,24 @@ export const AddWarehouse = () => {
           <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
             <ToggleSwitch
               checked={isDefault}
-              onChange={(value) => setValue('Default', value)}
+              onChange={(value) => setValue('default', value)}
               title="Almacén por defecto"
               required
-              error={errors.Default?.message}
+              error={errors.default?.message}
+            />
+            <InputSelect
+              label="Estado"
+              id="status"
+              placeholder="Estado del almacén"
+              required
+              error={errors.status?.message}
+              options={[
+                { label: 'Activo', value: 'Activo', selected: true },
+                { label: 'Inactivo', value: 'Inactivo' },
+              ]}
+              {...register('status', {
+                required: true,
+              })}
             />
           </div>
           {error && <p className="text-red-500">{error}</p>}

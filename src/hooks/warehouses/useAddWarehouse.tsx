@@ -9,7 +9,7 @@ interface AddWarehouseFormData {
   aisle_count: number;
   racks_per_aisle: number;
   levels_per_rack: number;
-  Default: boolean;
+  default: boolean;
   status: string;
 }
 
@@ -41,4 +41,4 @@ export const useAddWarehouse = () => {
     error,
     addWarehouseAction,
   };
-}; 
+};

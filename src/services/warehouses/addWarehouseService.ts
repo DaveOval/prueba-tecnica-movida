@@ -7,7 +7,7 @@ interface AddWarehouseFormData {
   aisle_count: number;
   racks_per_aisle: number;
   levels_per_rack: number;
-  Default: boolean;
+  default: boolean;
   status: string;
 }
 
@@ -20,4 +20,4 @@ export const addWarehouse = async (data: AddWarehouseFormData) => {
 
   const response = await api.post(`${WAREHOUSES_ENDPOINT}`, data);
   return response.data;
-}; 
+};
