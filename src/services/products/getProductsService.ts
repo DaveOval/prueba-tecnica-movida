@@ -10,5 +10,5 @@ export const getProducts = async () => {
 
 export const getProductsList = async () => {
   const response = await api.get(`${PRODUCTS_ENDPOINT}/list`);
-  return response.data;
+  return response.data.products;
 };
