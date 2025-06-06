@@ -11,6 +11,7 @@ import { SubmitButton } from '../../components/common/SubmitButton';
 import { useAddStock } from '../../hooks/stock/useAddStock';
 import { useNavigate } from 'react-router-dom';
 import { useGetWarehousesList } from '../../hooks/warehouses/useGetWarehouseList';
+import { useGetProductsList } from '../../hooks/warehouses/useGetProductsList';
 
 interface AddStockFormData {
   product_id: string; // Referens to a product
@@ -48,13 +49,22 @@ export const AddStock = () => {
 
   const { isLoading, addStockAction, error } = useAddStock();
 
-  const { warehousesList, getWarehousesListAction } = useGetWarehousesList();
+  const {
+    warehousesList,
+    isLoading: isLoadingWarehouses,
+    getWarehousesListAction,
+  } = useGetWarehousesList();
+
+  const {
+    productsList,
+    isLoading: isLoadingProducts,
+    getProductsListAction,
+  } = useGetProductsList();
 
   useEffect(() => {
     getWarehousesListAction();
-  }, [getWarehousesListAction]);
-
-  console.log(warehousesList);
+    getProductsListAction();
+  }, [getWarehousesListAction, getProductsListAction]);
 
   const onSubmit = async (data: AddStockFormData) => {
     try {
@@ -89,7 +99,13 @@ export const AddStock = () => {
               placeholder="Selecciona un producto"
               required
               error={errors.product_id?.message}
-              options={[]}
+              disabled={isLoadingProducts}
+              options={
+                productsList?.map((product) => ({
+                  label: product.name,
+                  value: product.id,
+                })) || []
+              }
               {...register('product_id', {
                 required: 'El producto es requerido',
               })}
@@ -99,6 +115,7 @@ export const AddStock = () => {
               id="warehouse_id"
               placeholder="Selecciona un almacén"
               required
+              disabled={isLoadingWarehouses}
               error={errors.warehouse_id?.message}
               options={
                 warehousesList?.map((warehouse) => ({

@@ -7,3 +7,8 @@ export const getProducts = async () => {
 
   return response.data;
 };
+
+export const getProductsList = async () => {
+  const response = await api.get(`${PRODUCTS_ENDPOINT}/list`);
+  return response.data;
+};
