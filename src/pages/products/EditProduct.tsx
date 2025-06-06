@@ -16,9 +16,9 @@ interface EditProductFormData {
   description: string;
   category: string;
   unit_of_measure: string;
-  unidad_base: string;
-  unidad_logistica: string;
-  factor_conversion: number;
+  unit_base: string;
+  unit_logistic: string;
+  factor_convertor: number;
   barcode: string;
   is_batch_tracked: boolean;
   is_expiry_tracked: boolean;
@@ -67,9 +67,9 @@ export const EditProduct = () => {
         setValue('description', product.description);
         setValue('category', product.category);
         setValue('unit_of_measure', product.unit_of_measure);
-        setValue('unidad_base', product.unidad_base);
-        setValue('unidad_logistica', product.unidad_logistica);
-        setValue('factor_conversion', product.factor_conversion);
+        setValue('unit_base', product.unit_base);
+        setValue('unit_logistic', product.unit_logistic);
+        setValue('factor_convertor', product.factor_convertor);
         setValue('barcode', product.barcode);
         setValue('min_stock_level', product.min_stock_level);
         setValue('max_stock_level', product.max_stock_level);
@@ -233,8 +233,8 @@ export const EditProduct = () => {
               type="text"
               required
               disabled={isFormReady}
-              error={errors.unidad_base?.message}
-              {...register('unidad_base', {
+              error={errors.unit_base?.message}
+              {...register('unit_base', {
                 required: true,
                 minLength: {
                   value: 3,
@@ -255,8 +255,8 @@ export const EditProduct = () => {
               required
               type="text"
               disabled={isFormReady}
-              error={errors.unidad_logistica?.message}
-              {...register('unidad_logistica', {
+              error={errors.unit_logistic?.message}
+              {...register('unit_logistic', {
                 required: true,
                 minLength: {
                   value: 3,
@@ -279,8 +279,8 @@ export const EditProduct = () => {
               placeholder="Factor de conversión"
               type="number"
               disabled={isFormReady}
-              error={errors.factor_conversion?.message}
-              {...register('factor_conversion', {
+              error={errors.factor_convertor?.message}
+              {...register('factor_convertor', {
                 required: false,
               })}
             />
@@ -354,7 +354,11 @@ export const EditProduct = () => {
               placeholder="ID del proveedor principal"
               disabled={isFormReady}
               error={errors.supplier_id?.message}
-              options={[]}
+              options={[
+                { label: 'Proveedor 1', value: '1' },
+                { label: 'Proveedor 2', value: '2' },
+                { label: 'Proveedor 3', value: '3' },
+              ]}
               {...register('supplier_id', {
                 required: false,
               })}

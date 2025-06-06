@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { TableLayout } from '../../components/layout/';
-import { Table, Column } from '../../components/common/';
+import { Table, Column, Spinner } from '../../components/common/';
 import { useGetProducts } from '../../hooks/products/useGetProducts';
 import { useDeleteProduct } from '../../hooks/products/useDeleteProduct';
 
@@ -110,7 +110,7 @@ export const ListProducts = () => {
       {products?.productos && (
         <Table columns={columns} data={products.productos} />
       )}
-      {isLoading && <div>Cargando...</div>}
+      {isLoading && <Spinner />}
       {error && <div>Error: {error}</div>}
     </TableLayout>
   );

@@ -14,9 +14,9 @@ interface AddProductFormData {
   description: string;
   category: string;
   unit_of_measure: string;
-  unidad_base: string;
-  unidad_logistica: string;
-  factor_conversion: number;
+  unit_base: string;
+  unit_logistic: string;
+  factor_convertor: number;
   barcode: string;
   is_batch_tracked: boolean;
   is_expiry_tracked: boolean;
@@ -187,8 +187,8 @@ export const AddProduct = () => {
               placeholder="Unidad mínima de inventario (Ej: pieza, caja, etc.)"
               type="text"
               required
-              error={errors.unidad_base?.message}
-              {...register('unidad_base', {
+              error={errors.unit_base?.message}
+              {...register('unit_base', {
                 required: true,
                 minLength: {
                   value: 3,
@@ -208,8 +208,8 @@ export const AddProduct = () => {
               placeholder="Unidad en la que se recibe/envía (Ej: 'caja')"
               required
               type="text"
-              error={errors.unidad_logistica?.message}
-              {...register('unidad_logistica', {
+              error={errors.unit_logistic?.message}
+              {...register('unit_logistic', {
                 required: true,
                 minLength: {
                   value: 3,
@@ -231,8 +231,8 @@ export const AddProduct = () => {
               id="factor_conversion"
               placeholder="Factor de conversión"
               type="number"
-              error={errors.factor_conversion?.message}
-              {...register('factor_conversion', {
+              error={errors.factor_convertor?.message}
+              {...register('factor_convertor', {
                 required: false,
               })}
             />
@@ -301,7 +301,11 @@ export const AddProduct = () => {
               id="supplier_id"
               placeholder="ID del proveedor principa"
               error={errors.supplier_id?.message}
-              options={[]}
+              options={[
+                { label: 'Proveedor 1', value: '1' },
+                { label: 'Proveedor 2', value: '2' },
+                { label: 'Proveedor 3', value: '3' },
+              ]}
               {...register('supplier_id', {
                 required: false,
               })}

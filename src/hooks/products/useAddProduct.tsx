@@ -7,9 +7,9 @@ interface AddProductFormData {
   description: string;
   category: string;
   unit_of_measure: string;
-  unidad_base: string;
-  unidad_logistica: string;
-  factor_conversion: number;
+  unit_base: string;
+  unit_logistic: string;
+  factor_convertor: number;
   barcode: string;
   is_batch_tracked: boolean;
   is_expiry_tracked: boolean;
