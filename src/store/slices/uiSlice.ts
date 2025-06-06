@@ -9,7 +9,7 @@ interface UiState {
 }
 
 const initialState: UiState = {
-  isAsideOpen: true,
+  isAsideOpen: false,
   isModalOpen: false,
   theme: 'light',
   loading: false,

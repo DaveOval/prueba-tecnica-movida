@@ -1,9 +1,11 @@
-import { TableLayout } from '../../components/layout/TableLayout';
-import { Table, Column } from '../../components/common/';
-import { useGetStock } from '../../hooks/stock/useGetStock';
-import { useDeleteStock } from '../../hooks/stock/useDeleteStock';
 import { useEffect } from 'react';
+
 import { useNavigate } from 'react-router-dom';
+
+import { TableLayout } from '../../components/layout/';
+import { Table, Column } from '../../components/common/';
+import { useDeleteStock } from '../../hooks/stock/useDeleteStock';
+import { useGetStock } from '../../hooks/stock/useGetStock';
 
 interface Warehouse {
   _id: string;

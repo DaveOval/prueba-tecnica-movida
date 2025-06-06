@@ -1,12 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { TableLayout } from '../../components/layout/';
 import { Table, Column } from '../../components/common/';
 import { useGetProducts } from '../../hooks/products/useGetProducts';
 import { useDeleteProduct } from '../../hooks/products/useDeleteProduct';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface Product {
+  _id: string;
   name: string;
   category: string;
   unit_of_measure: string;
@@ -16,7 +19,7 @@ interface Product {
   price: { $numberDecimal: string };
   status: string;
   created_at: string;
-  _id: string;
+  updated_at: string;
   delete?: never;
   edit?: never;
 }

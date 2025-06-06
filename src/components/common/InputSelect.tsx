@@ -27,27 +27,26 @@ export const InputSelect = ({
           {label}
           {required && <span className="text-red-500">*</span>}
         </span>
-
-        <select
-          id={id}
-          required={required}
-          className={`block w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} bg-white text-gray-900 px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500`}
-          {...props}
-        >
-          <option value="" disabled>
-            {placeholder}
-          </option>
-          {options.map((option) => (
-            <option
-              key={option.value}
-              value={option.value}
-              selected={option.selected}
-            >
-              {option.label}
-            </option>
-          ))}
-        </select>
       </label>
+      <select
+        id={id}
+        required={required}
+        className={`block w-full rounded-lg border ${error ? 'border-red-500' : 'border-gray-300'} bg-white text-gray-900 px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500`}
+        {...props}
+      >
+        <option value="" disabled>
+          {placeholder}
+        </option>
+        {options.map((option) => (
+          <option
+            key={option.value}
+            value={option.value}
+            selected={option.selected}
+          >
+            {option.label}
+          </option>
+        ))}
+      </select>
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>
   );
