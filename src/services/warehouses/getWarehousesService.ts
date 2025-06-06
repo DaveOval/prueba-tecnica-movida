@@ -19,9 +19,20 @@ interface WarehousesResponse {
   bodegas: Warehouse[];
 }
 
+interface WarehouseListResponse {
+  warehouses: Warehouse[];
+}
+
 const WAREHOUSES_ENDPOINT = 'warehouse';
 
 export const getWarehouses = async () => {
   const response = await api.get<WarehousesResponse>(WAREHOUSES_ENDPOINT);
   return response.data;
-}; 
+};
+
+export const getWarehouseList = async () => {
+  const response = await api.get<WarehouseListResponse>(
+    `${WAREHOUSES_ENDPOINT}/list`
+  );
+  return response.data.warehouses;
+};

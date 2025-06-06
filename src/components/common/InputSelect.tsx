@@ -5,7 +5,7 @@ interface InputSelectProps
   placeholder: string;
   required?: boolean;
   error?: string;
-  options: { label: string; value: string; selected?: boolean }[];
+  options: { label: string; value: string; selected?: boolean }[] | null;
 }
 
 export const InputSelect = ({
@@ -37,15 +37,16 @@ export const InputSelect = ({
         <option value="" disabled selected>
           {placeholder.length > 0 ? placeholder : 'Selecciona una opción'}
         </option>
-        {options.map((option) => (
-          <option
-            key={option.value}
-            value={option.value}
-            selected={option.selected}
-          >
-            {option.label}
-          </option>
-        ))}
+        {options &&
+          options.map((option) => (
+            <option
+              key={option.value}
+              value={option.value}
+              selected={option.selected}
+            >
+              {option.label}
+            </option>
+          ))}
       </select>
       {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
     </div>

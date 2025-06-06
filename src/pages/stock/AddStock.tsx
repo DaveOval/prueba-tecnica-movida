@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 import { AxiosError } from 'axios';
@@ -8,6 +10,7 @@ import { Input, InputSelect } from '../../components/common/';
 import { SubmitButton } from '../../components/common/SubmitButton';
 import { useAddStock } from '../../hooks/stock/useAddStock';
 import { useNavigate } from 'react-router-dom';
+import { useGetWarehousesList } from '../../hooks/warehouses/useGetWarehouseList';
 
 interface AddStockFormData {
   product_id: string; // Referens to a product
@@ -44,6 +47,14 @@ export const AddStock = () => {
   const isDefault = watch('status');
 
   const { isLoading, addStockAction, error } = useAddStock();
+
+  const { warehousesList, getWarehousesListAction } = useGetWarehousesList();
+
+  useEffect(() => {
+    getWarehousesListAction();
+  }, [getWarehousesListAction]);
+
+  console.log(warehousesList);
 
   const onSubmit = async (data: AddStockFormData) => {
     try {
@@ -89,7 +100,12 @@ export const AddStock = () => {
               placeholder="Selecciona un almacén"
               required
               error={errors.warehouse_id?.message}
-              options={[]}
+              options={
+                warehousesList?.map((warehouse) => ({
+                  label: warehouse.warehouses,
+                  value: warehouse.id,
+                })) || []
+              }
               {...register('warehouse_id', {
                 required: 'El almacén es requerido',
               })}
