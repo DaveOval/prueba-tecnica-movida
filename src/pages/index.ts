@@ -4,9 +4,7 @@ export * from './Signin';
 
 // Protected
 export * from './Dashboard';
-export * from './Configuracion';
 export * from './ControlStock';
-export * from './Alertas';
 export * from './EscanearProductos';
 export * from './Ubicaciones';
 export * from './PedidosPicking';

@@ -1,7 +1,6 @@
 import {
   IconLayoutDashboard,
   IconSettings,
-  IconBell,
   IconScanBarcode,
   IconMapPin,
   IconPackageSearch,
@@ -10,6 +9,8 @@ import {
   IconProducts,
   IconWarehouse,
   IconStock,
+  // IconUser,
+  IconUserPlus,
 } from '../assets/icons';
 
 export interface MenuItem {
@@ -53,11 +54,6 @@ export const menuOptions: MenuSection[] = [
         icon: IconStock,
       },
       {
-        label: 'Alertas',
-        path: '/inventario/alertas',
-        icon: IconBell,
-      },
-      {
         label: 'Escanear productos',
         path: '/inventario/escanear',
         icon: IconScanBarcode,
@@ -76,6 +72,11 @@ export const menuOptions: MenuSection[] = [
         label: 'Configuración',
         path: '/configuracion',
         icon: IconSettings,
+      },
+      {
+        label: 'Agregar usuario',
+        path: '/agregar-usuario',
+        icon: IconUserPlus,
       },
     ],
   },

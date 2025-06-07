@@ -3,9 +3,7 @@ import {
   Error404,
   Login,
   //Signin,
-  Configuracion,
   ControlStock,
-  Alertas,
   EscanearProductos,
   Ubicaciones,
   PedidosPicking,
@@ -16,6 +14,7 @@ import {
 import { EditProduct, ListProducts, AddProduct } from '../pages/products';
 import { AddStock, EditStock, ListStock } from '../pages/stock';
 import { AddWarehouse, EditWarehouse, ListWarehouse } from '../pages/warehouse';
+import { AddUser, Config } from '../pages/config';
 
 export interface RouteConfig {
   path: string;
@@ -84,17 +83,19 @@ export const protectedRoutes: RouteConfig[] = [
     path: '/stock/editar/:id',
     element: <EditStock />,
   },
+  // Configuracion
   {
     path: '/configuracion',
-    element: <Configuracion />,
+    element: <Config />,
   },
+  {
+    path: '/agregar-usuario',
+    element: <AddUser />,
+  },
+  // Inventario
   {
     path: '/inventario/stock',
     element: <ControlStock />,
-  },
-  {
-    path: '/inventario/alertas',
-    element: <Alertas />,
   },
   {
     path: '/inventario/escanear',

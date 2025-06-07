@@ -23,3 +23,4 @@ export * from './IconWarehouse';
 export * from './IconStock';
 export * from './IconAdd';
 export * from './IconBack';
+export * from './IconUserPlus';
