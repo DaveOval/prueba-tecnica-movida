@@ -5,6 +5,7 @@ interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   required?: boolean;
   error?: string;
   type?: string;
+  autoComplete?: string;
 }
 
 export const Input = ({
@@ -14,6 +15,7 @@ export const Input = ({
   required = false,
   error,
   type = 'text',
+  autoComplete = 'off',
   ...props
 }: InputProps) => {
   return (
@@ -33,6 +35,7 @@ export const Input = ({
         type={type}
         placeholder={placeholder}
         required={required}
+        autoComplete={autoComplete}
         className={`block w-full rounded-lg border ${
           error ? 'border-red-500' : 'border-gray-300'
         } bg-white text-gray-900 px-4 py-2 text-sm shadow-sm focus:border-blue-500 focus:ring-blue-500`}

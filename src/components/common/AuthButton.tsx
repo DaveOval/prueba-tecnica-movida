@@ -3,6 +3,7 @@ interface AuthButtonProps {
   type: 'button' | 'submit' | 'reset';
   disabled?: boolean;
   onClick?: () => void;
+  className?: string;
 }
 
 export const AuthButton = ({
@@ -10,10 +11,11 @@ export const AuthButton = ({
   type,
   disabled,
   onClick,
+  className = '',
 }: AuthButtonProps) => {
   return (
     <button
-      className="
+      className={`
         w-full
         bg-blue-600
         text-white
@@ -30,7 +32,8 @@ export const AuthButton = ({
         hover:cursor-pointer
         disabled:opacity-50
         disabled:cursor-not-allowed
-      "
+        ${className}
+      `}
       type={type}
       onClick={onClick}
       disabled={disabled}
