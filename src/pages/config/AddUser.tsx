@@ -1,4 +1,6 @@
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
 import toast from 'react-hot-toast';
 
 import { FormLayout } from '../../components/layout/';
@@ -8,10 +10,10 @@ import {
   FormContainer,
   Input,
   InputSelect,
+  Button,
 } from '../../components/common';
-import { useNavigate } from 'react-router-dom';
 import { useAddUser } from '../../hooks/auth/useAddUser';
-import { AxiosError } from 'axios';
+import { passwordGenerator } from '../../helpers';
 
 interface AddUserFormData {
   name: string;
@@ -30,6 +32,7 @@ export const AddUser = () => {
     formState: { errors },
     watch,
     reset,
+    setValue,
   } = useForm<AddUserFormData>();
 
   const { isLoading, addUserAction, error } = useAddUser();
@@ -193,6 +196,41 @@ export const AddUser = () => {
                 },
               })}
             />
+          </div>
+          <div className="flex gap-2 mt-4">
+            <Button
+              size="sm"
+              className="w-auto px-3 py-1 text-sm"
+              onClick={() => {
+                const newPassword = passwordGenerator({
+                  length: 12,
+                  includeUppercase: true,
+                  includeLowercase: true,
+                  includeNumbers: true,
+                  includeSymbols: true,
+                });
+                setValue('password', newPassword);
+                setValue('confirmPassword', newPassword);
+                toast.success('Contraseña generada correctamente');
+              }}
+            >
+              Generar contraseña
+            </Button>
+            <Button
+              size="sm"
+              className="w-auto px-3 py-1 text-sm"
+              onClick={() => {
+                const pwd = watch('password');
+                if (pwd) {
+                  navigator.clipboard.writeText(pwd);
+                  toast.success('Contraseña copiada al portapapeles');
+                } else {
+                  toast.error('No hay contraseña para copiar');
+                }
+              }}
+            >
+              Copiar contraseña
+            </Button>
           </div>
           {error && <p className="text-red-500">{error}</p>}
           <div className="pt-10 flex justify-center">

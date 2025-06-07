@@ -14,3 +14,4 @@ export * from './ToggleSwitch';
 export * from './SubmitButton';
 export * from './Table';
 export * from './InputSelect';
+export * from './Button';
