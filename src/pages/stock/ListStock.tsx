@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { TableLayout } from '../../components/layout/';
-import { Table, Column } from '../../components/common/';
+import { Table, Column, Spinner } from '../../components/common/';
 import { useDeleteStock } from '../../hooks/stock/useDeleteStock';
 import { useGetStock } from '../../hooks/stock/useGetStock';
 
@@ -141,7 +141,7 @@ export const ListStock = () => {
   return (
     <TableLayout title="Control Stock" route="agregar">
       {stock?.stock && <Table columns={columns} data={stock.stock} />}
-      {isLoading && <div>Cargando...</div>}
+      {isLoading && <Spinner />}
       {error && <div>Error: {error}</div>}
     </TableLayout>
   );

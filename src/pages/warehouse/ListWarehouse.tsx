@@ -1,9 +1,11 @@
+import { useEffect } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { TableLayout } from '../../components/layout/';
-import { Table, Column } from '../../components/common/';
+import { Table, Column, Spinner } from '../../components/common/';
 import { useGetWarehouses } from '../../hooks/warehouses/useGetWarehouses';
 import { useDeleteWarehouse } from '../../hooks/warehouses/useDeleteWarehouse';
-import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface Warehouse {
   _id: string;
@@ -123,7 +125,7 @@ export const ListWarehouse = () => {
       {warehouses?.bodegas && (
         <Table columns={columns} data={warehouses.bodegas} />
       )}
-      {isLoading && <div>Cargando...</div>}
+      {isLoading && <Spinner />}
       {error && <div>Error: {error}</div>}
     </TableLayout>
   );
