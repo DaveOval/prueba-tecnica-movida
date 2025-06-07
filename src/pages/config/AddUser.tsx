@@ -9,6 +9,9 @@ import {
   Input,
   InputSelect,
 } from '../../components/common';
+import { useNavigate } from 'react-router-dom';
+import { useAddUser } from '../../hooks/auth/useAddUser';
+import { AxiosError } from 'axios';
 
 interface AddUserFormData {
   name: string;
@@ -20,18 +23,31 @@ interface AddUserFormData {
 }
 
 export const AddUser = () => {
+  const navigate = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
-    // setValue,
-    // reset,
+    reset,
   } = useForm<AddUserFormData>();
 
-  const onSubmit = (data: AddUserFormData) => {
-    toast.success('Usuario agregado correctamente');
-    console.log(data);
+  const { isLoading, addUserAction, error } = useAddUser();
+
+  const onSubmit = async (data: AddUserFormData) => {
+    try {
+      await addUserAction(data);
+      toast.success('Usuario agregado correctamente');
+      reset();
+      navigate('/configuracion');
+    } catch (error) {
+      const axiosError = error as AxiosError<{ message: string }>;
+      const errorMessage =
+        axiosError?.response?.data?.message ||
+        axiosError?.message ||
+        'Error al agregar el usuario';
+      toast.error(errorMessage);
+    }
   };
 
   return (
@@ -178,8 +194,13 @@ export const AddUser = () => {
               })}
             />
           </div>
+          {error && <p className="text-red-500">{error}</p>}
           <div className="pt-10 flex justify-center">
-            <AuthButton type="submit" className="w-full md:w-1/3">
+            <AuthButton
+              type="submit"
+              className="w-full md:w-1/3"
+              disabled={isLoading}
+            >
               <span>Agregar usuario</span>
             </AuthButton>
           </div>
