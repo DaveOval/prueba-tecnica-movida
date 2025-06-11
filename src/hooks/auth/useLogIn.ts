@@ -1,5 +1,9 @@
 import { useCallback, useState } from 'react';
 import { logIn } from '../../services';
+import { login } from '../../store/slices/authSlice';
+import { useAppDispatch } from '../useAppDispatch';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 interface LogInData {
   email: string;
@@ -9,36 +13,39 @@ interface LogInData {
 
 export const useLogIn = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const logInAction = useCallback(
     async (data: LogInData): Promise<void> => {
       if (!data.email || !data.password) {
-        setError('Email and password are required');
+        toast.error('Email y contraseña son requeridos');
         return;
       }
 
       setIsLoading(true);
-      setError(null);
 
       try {
-        await logIn(data);
-      } catch (error: unknown) {
-        if (error instanceof Error) {
-          setError(error.message);
+        const response = await logIn(data);
+
+        if (response?.user) {
+          dispatch(login(response.user));
+          toast.success('Inicio de sesión exitoso');
+          navigate('/');
         } else {
-          setError('An unknown error occurred');
+          toast.error('No se recibió información del usuario');
         }
+      } catch (e) {
+        console.log('Error :', e);
+        toast.error('Credenciales incorrectas');
       } finally {
         setIsLoading(false);
       }
     },
-    [setIsLoading, setError]
+    [dispatch, navigate]
   );
 
   return {
     isLoading,
-    error,
     logInAction,
   };
 };

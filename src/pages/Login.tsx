@@ -1,6 +1,5 @@
 import { useForm } from 'react-hook-form';
 
-import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
 
 import { AuthButton, AuthInput } from '../components/common';
@@ -21,15 +20,9 @@ export const Login = () => {
     formState: { errors },
   } = useForm<LoginFormData>();
 
-  const { isLoading, error, logInAction } = useLogIn();
-
+  const { isLoading, logInAction } = useLogIn();
   const onSubmit = async (data: LoginFormData) => {
     await logInAction(data);
-    if (!error) {
-      toast.success('Inicio de sesión exitoso');
-    } else {
-      toast.error(error);
-    }
   };
 
   return (

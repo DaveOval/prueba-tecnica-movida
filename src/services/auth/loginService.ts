@@ -18,7 +18,6 @@ export const logIn = async (data: LoginFormData) => {
   if (!data.email || !data.password) {
     throw new Error('Email and password are required');
   }
-
   const response = await api.post(`${AUTH_ENDPOINT}/login`, data);
   return response.data;
 };
